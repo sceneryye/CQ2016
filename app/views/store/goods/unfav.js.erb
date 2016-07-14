@@ -1,0 +1,6 @@
+$("#favorites_list").find("#good_<%=params[:id]%>").remove();
+
+$("#<%=params[:rel]%> .favorite").replaceWith(' <%=link_to "收藏",fav_good_path(@good,:rel=>params[:rel]),:class=>"favorite",:remote=>true,:method=>:put%>');
+
+$(".add_to_favorites").replaceWith('  <%=link_to "加入收藏夹",fav_good_path(@good,:rel=>"good_#{@good.goods_id}"),:class=>"add_to_favorites button hollow",:remote=>true,:method=>:put%>');
+

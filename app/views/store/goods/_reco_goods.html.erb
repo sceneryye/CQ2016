@@ -1,0 +1,23 @@
+<%@recommend_goods.each do |goods|%>
+<div class="row col">
+
+  <div class="columns small-4">
+    <%=link_to good_path(goods.bn), :target=>"_blank" do %>
+        <%=image_tag goods.list_default_pic,:alt=>goods.name, class: "thumbnail"%>
+    <%end%>
+  </div>
+  <div class="columns small-8">
+      <h5>
+          <%=link_to good_path(goods.bn), :target=>"_blank" do %>
+              <%=goods.name%>[<%=goods.spec_info%>]
+          <%end%> 
+      </h5>
+       <p class='text-center'>
+          <span class='price'><%=number_to_currency goods.price,:unit=>"¥",:precision=>2%></span>
+          <span class='mktprice'><%=number_to_currency goods.mktprice,:unit=>"¥",:precision=>2%></span>
+      </p>
+      <!-- <p><%=goods.desc.html_safe%></p> -->
+  </div>
+</div>
+
+  <%end if @recommend_goods%>

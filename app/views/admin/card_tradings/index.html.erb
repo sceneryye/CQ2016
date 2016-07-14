@@ -1,0 +1,65 @@
+<div class='columns medium-6'>
+  <div class="button-group">
+      <%=link_to "线上交易",admin_card_tradings_path(:type=>0),:class=>"button #{@online}"%>
+      <%=link_to "其它交易",admin_card_tradings_path(:type=>1),:class=>"button #{@others}"%>
+      <%=link_to "新增交易",new_admin_card_trading_path,:class=>"button"%>
+  </div>
+</div>
+
+<%if flash[:notice] && flash[:notice].is_a?(Hash)%>
+<div id="import_log_list" class="alert columns medium-3">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <ul>
+    <%flash[:notice].each do |row_no,msg|%>
+        <% if row_no.to_i < 2+5 %>
+          <li>行号[<%=row_no%>] : <%=msg%></li>
+        <%else%>
+          <li class="hide">行号[<%=row_no%>] : <%=msg%></li>
+        <%end%>
+    <%end%>
+  </ul>
+  <%=link_to "显示全部","#",:id=>"show_all"  if flash[:notice].size > 5%>
+</div>
+<%end%>
+
+<div class='columns medium-3'>
+<%=form_for :search,:url=>admin_card_tradings_path,:html=>{:class=>"form-search"},:method=>:get do |f|%>
+  <div class="input-group">
+    <%=f.text_field :key,:placeholder=>"卡号",:value=>params[:search]&&params[:search][:key],class:'input-group-field'%>
+    <div class="input-group-button">
+    <%=f.submit "搜索",:class=>"button"%>
+    </div>
+  </div>
+<%end%>
+</div>
+
+
+<div class='sel_banner columns small-12'>一共<%=@card_tradings_total%>条记录</div>
+
+<table class="table table-bordered table-hover" id="card_tradings_list">
+  <tr>
+    <thead>
+    <th>流水号</th>
+    <th>卡号</th>
+    <th>金额</th>
+    <th>订单号</th>
+    <th>交易时间</th>
+    <th>交易类型</th>
+    <th>交易地点</th>
+    </thead>
+  </tr>
+  <% @card_tradings.each do |card_trading| %>
+  <tr>
+    <td><%=card_trading.id%></td>
+    <td ><%=card_trading.card_no%></td>
+    <td>¥<%= card_trading.amount %></td>
+    <td><%=card_trading.order_id%></td>
+    <td><%=l card_trading.trading_time if card_trading.trading_time%></td>
+    <td><%=card_trading.type_text%></td>
+    <td><%=card_trading.location%></td>
+  </tr>
+  <% end %>
+</table>
+<div class="pagination">
+<%= will_paginate @card_tradings,renderer: FoundationPagination::Rails%>
+</div>

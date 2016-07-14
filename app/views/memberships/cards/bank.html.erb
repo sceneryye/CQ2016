@@ -1,0 +1,43 @@
+<% provide :title, '会员卡激活-银行卡信息' %>
+  <h4><%if @user.member_card.bank_card_no.blank?%>最后一步：<%end%>请填写绑定银行卡信息
+  </h4>
+    
+<%= form_for :member_card,:url => member_card_cards_path,:method=>:post,:html=>{:role=>"form",data: {type: "script"}} do |f|%>  
+  <%= render 'layouts/form_errors', object: @member_card if @member_card%>  
+    <div class="row">
+        <div class="columns small-12">
+            <div class="form-group">
+                 <%=f.label :bank_name,'发卡银行'%>
+                <%=f.text_field :bank_name, value: @user.member_card.bank_name,:placeholder=>"*发行银行",:required=>"required"%>
+            </div>
+            <div class="help-block" rel="user_name"></div>
+        </div>                           
+    </div> 
+    <div class="row">
+        <div class="columns small-12">
+            <div class="form-group">
+                <%=f.label :bank_card_no,'银行卡号'%>
+                <%=f.text_field :bank_card_no,value: @user.member_card.bank_card_no,:placeholder=>"*银行卡号",:required=>"required"%>
+            </div>
+            <div class="help-block" rel="user_name"></div>
+        </div>                           
+    </div> 
+     <div class="row">
+        <div class="columns small-12">
+            <div class="form-group">
+             <%=f.label :bank_branch,'开户支行'%>
+                <%=f.text_field :bank_branch,value: @user.member_card.bank_branch,:placeholder=>"*开户行",:required=>"required"%>
+            </div>
+            <div class="help-block" rel="user_name"></div>
+        </div>                           
+    </div> 
+     <div class="row">
+        <div class="columns small-12">  
+            <div class="help-block" style="color:red">*打星号的为必填项*</div>                                 
+            <div class="expanded button-group">
+                 <%=link_to '暂不绑定', root_path, class:'button hollow alert expanded'%>                 
+                 <%=f.submit "提 交",:class=>"button alert expanded"%>  
+            </div>
+        </div>
+    </div>
+<%end%> 

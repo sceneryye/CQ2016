@@ -1,0 +1,17 @@
+<%=render "layouts/metable", :resource=>@cat%>
+<% provide :title, '昌麒生态园-基地详情' %>
+<div class="row columns">
+<nav aria-label="You are here:" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="/">首页</a></li>
+<li><%=link_to '产品中心',cats_path%></li>
+<li>
+<span class="show-for-sr">品名: </span> <%= @cat.cat_name%>
+</li>
+</ul>
+</nav>
+</div>
+<div class="row columns">
+	<%=render "store/goods/list_goods"%>
+		
+ </div>

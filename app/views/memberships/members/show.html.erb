@@ -1,0 +1,80 @@
+<% provide :title, '昌麒生态园-个人中心' %>
+<%@class="button hollow alert member_menu expanded"%>
+<style>
+  .member_menu{line-height: 1.8rem;text-align:left;}
+  </style>
+<ul class="accordion" data-accordion >
+  <li class="accordion-item" data-accordion-item>
+    <%=link_to '我的订单', '#',class:"accordion-title"%>
+    <div class="accordion-content" data-tab-content>
+      <ul class="menu vertical">
+        <li><%=link_to "待付款订单(#{@unpay_count})",orders_member_path(:pay_status=>'0',:status=>'active'),class:@class%></li>
+        <li><%=link_to "已付款订单(#{@paid_count})",orders_member_path(:pay_status=>'1',:status=>'paid'),class:@class%></li>
+        <li><%=link_to "已完成订单(#{@history_count})",orders_member_path,class:@class%></li>
+      </ul>
+    </div>
+  </li>
+  <li class="accordion-item" data-accordion-item>
+    <%=link_to '账户管理', '#',class:"accordion-title"%>
+    <div class="accordion-content" data-tab-content>
+      <ul class="menu vertical">
+      <%if @user.card_validate=='true'%>
+        <li><%=link_to "账户信息",card_path(0),class:@class%></li>        
+        <li><%=link_to "余额查询",card_path(1),class:@class%></li>        
+        <li><%=link_to "消费记录",tradings_cards_path,class:@class%></li>        
+        <li><%=link_to "更改密码",edit_card_path(0),class:@class%></li>
+        <li><%=link_to "账面充值",recharge_cards_path,class:@class%></li>
+      <%else%>
+        <li><%=link_to "激活会员卡", new_member_path ,class:@class%></li>
+      <%end%>
+      </ul>
+    </div>
+  </li>
+  <%if @user.card_validate=='true'%>
+  <li>
+     <%=link_to '提现管理', cards_path,class:"accordion-title"%>
+    <div class="accordion-content" data-tab-content>
+      <ul class="menu vertical">
+        <li><%=link_to '提现管理', cards_path,class:@class%></li>
+        <li><%=link_to "提现明细",rebates_cards_path,class:@class%></li>
+        <li><%=link_to "提现记录",withdrawals_cards_path,class:@class%></li>
+      </ul>
+    </div>
+  </li>
+    <%if  @user.member_card && @user.member_card.card.card_type=='A'%>
+      <li class="accordion-item" data-accordion-item>
+       <%=link_to '我的亲情卡', '#',class:"accordion-title"%>
+      <div class="accordion-content" data-tab-content>
+        <ul class="menu vertical">
+          <li><%=link_to "亲情卡信息",subcards_cards_path,class:@class%></li>
+        </ul>
+      </div>
+    </li>
+    <%end%>
+  <%end%>
+  <li class="accordion-item" data-accordion-item>
+     <%=link_to '收货地址管理', '#',class:"accordion-title"%>
+    <div class="accordion-content" data-tab-content>
+      <ul class="menu vertical">
+        <%@user.member_addrs.each do |addr|%>
+        <li>
+          <%=link_to edit_member_addr_path(addr),class:@class do%>
+            <i class="fa  fa-edit"></i>&nbsp;<%="#{addr.name}|#{addr.mobile}"%><br><%=addr.addr%>
+          <%end%>
+        </li>
+        <%end%>
+        <li>
+          <%=link_to new_member_addr_path,class:@class do%>
+            <i class="fa fa-plus"></i>&nbsp;添加地址
+          <%end%>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>
+<div class="button-group expanded vertical">
+   <%=link_to "我的购物车",'/cart', class:'button hollow alert'%>
+  <%=link_to '我的收藏',favorites_member_path, class:'button hollow alert'%>
+
+ 
+</div>

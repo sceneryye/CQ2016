@@ -1,0 +1,29 @@
+<h5>添加其它消费记录</h5>
+<hr />
+<%= form_for  :card_trading, url: admin_card_tradings_path, method: 'post' do |f|  %>
+
+<%= render 'layouts/form_errors', object: @card_trading  if @card_trading%>
+
+
+  <div class="field">
+    <%= f.label :card_no,'卡号' %><br />
+    <%= f.text_field :card_no,value:'8661089810000'%>请继续输入卡号后6位
+  </div>
+   <div class="field">
+    <%= f.label :location,'交易地点' %><br />
+    <%= f.text_field :location %>
+  </div>
+  <div class="field">
+    <%= f.label :trading_time,'交易时间' %><br />
+    <%= f.text_field :trading_time %>
+  </div>
+
+  <div class="field">
+    <%= f.label :amount,'交易金额' %><br />
+    <%= f.number_field :amount %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit '保存' %>
+  </div>
+<% end %>

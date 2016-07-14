@@ -1,0 +1,423 @@
+en:
+  date:
+    abbr_day_names:
+    - Sun
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
+    abbr_month_names:
+    - 
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+    day_names:
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
+    formats:
+      default: "%Y-%m-%d"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    - 
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+    order:
+    - :year
+    - :month
+    - :day
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: about 1 hour
+        other: about %{count} hours
+      about_x_months:
+        one: about 1 month
+        other: about %{count} months
+      about_x_years:
+        one: about 1 year
+        other: about %{count} years
+      almost_x_years:
+        one: almost 1 year
+        other: almost %{count} years
+      half_a_minute: half a minute
+      less_than_x_minutes:
+        one: less than a minute
+        other: less than %{count} minutes
+      less_than_x_seconds:
+        one: less than 1 second
+        other: less than %{count} seconds
+      over_x_years:
+        one: over 1 year
+        other: over %{count} years
+      x_days:
+        one: 1 day
+        other: "%{count} days"
+      x_minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+      x_months:
+        one: 1 month
+        other: "%{count} months"
+      x_seconds:
+        one: 1 second
+        other: "%{count} seconds"
+    prompts:
+      day: Day
+      hour: Hour
+      minute: Minute
+      month: Month
+      second: Seconds
+      year: Year
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: must be accepted
+      blank: can't be blank
+      present: must be blank
+      confirmation: doesn't match %{attribute}
+      empty: can't be empty
+      equal_to: must be equal to %{count}
+      even: must be even
+      exclusion: is reserved
+      greater_than: must be greater than %{count}
+      greater_than_or_equal_to: must be greater than or equal to %{count}
+      inclusion: is not included in the list
+      invalid: is invalid
+      less_than: must be less than %{count}
+      less_than_or_equal_to: must be less than or equal to %{count}
+      not_a_number: is not a number
+      not_an_integer: must be an integer
+      odd: must be odd
+      record_invalid: 'Validation failed: %{errors}'
+      duration: "start time must earlier than end time"
+      restrict_dependent_destroy:
+        one: Cannot delete record because a dependent %{record} exists
+        many: Cannot delete record because dependent %{record} exist
+      taken: has already been taken
+      too_long:
+        one: is too long (maximum is 1 character)
+        other: is too long (maximum is %{count} characters)
+      too_short:
+        one: is too short (minimum is 1 character)
+        other: is too short (minimum is %{count} characters)
+      wrong_length:
+        one: is the wrong length (should be 1 character)
+        other: is the wrong length (should be %{count} characters)
+      other_than: must be other than %{count}
+    template:
+      body: 'There were problems with the following fields:'
+      header:
+        one: 1 error prohibited this %{model} from being saved
+        other: "%{count} errors prohibited this %{model} from being saved"
+  helpers:
+    select:
+      prompt: Please select
+    submit: 
+      create: Submit
+      submit: Submit
+      update: Submit
+  number:
+    currency:
+      format:
+        delimiter: ","
+        format: "%u%n"
+        precision: 2
+        separator: "."
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "$"
+    format:
+      delimiter: ","
+      precision: 3
+      separator: "."
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: Billion
+          million: Million
+          quadrillion: Quadrillion
+          thousand: Thousand
+          trillion: Trillion
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n%"
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: ", and "
+      two_words_connector: " and "
+      words_connector: ", "
+  time:
+    am: am
+    formats:
+      default: "%B %d, %Y %H:%M"
+      long:  "%a, %d %b %Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+    pm: pm
+  placeholder:
+    events:
+      title: "Title"
+
+  by: By
+  price: Price
+  participants: Participants
+  comments: Comment
+  site_name: GroupMall
+  home: Home
+  search: Search
+  event: Votes
+  topic: Topics
+  user_center: User Center  
+  before: before.
+  more: More
+  new_comment: New Comment
+  title: Title
+  goods_unit: Unit Name
+  please_choose_event_duration: Duration
+  start_time: Start Time
+  end_time: End Time
+  price:  Price
+  goods_minimal: Minimum Order
+  new_forum:  New Wish list
+  edit_forum: Edit Wish list
+  new_topic:  Add new discuz
+  edit_topic: Edit discuz
+  pay: Pay Now
+  goings: Goings
+  rsvp: RSVP
+  unpaid: Unpaid
+  pic_url: Picture upload
+  paid: Paid
+  body: Description
+  waiting_confirm: Wait for confirm
+  shiped: Shiped
+  unshiped: Wating for ship
+  received: Received
+  groupbuy: Hot Deals
+  my_groupbuys: My Deals
+  share: Share
+  edit_profile: Edit Profile
+  maintain_addresses: Delivery Address
+  interests: interests
+  membership: About GroupMall
+  name: Name
+  mobile: Mobile
+  address: Address
+  quantity: Quantity
+  buy: Buy Now
+  buys: Order
+  remark: Remarks
+  new_event: Add new vote
+  group_management: Group Management
+  limited_people: Max. attendee
+  new_groupbuy: Add new deal
+  welcome: Welcome
+  inventory: Stock
+  weekday: Weekday
+  weekend: Weekend
+  anyday: Anyday
+  morning: Morning
+  afternoon: Afternoon
+  anytime: Anytime
+  deliverytime: Delivery Time
+  default_address: Default Address
+  new_address: Create New Address
+  set_default: Set As Default
+  groupbuy_detail: Deal Details
+  event_detail: Vote Detail
+  amount: Amount
+  count_down: Countdown
+  groupbuy_end: Past!
+  day: Day
+  edit: Edit
+  delete: Delete
+  comment: Comment
+  logout: Logout
+  no_events: There are no votes yet.
+  no_topics: There are no topics yet.
+  no_groupbuys: There are no groupbuys yet.
+  should_be_int: Number should be a positive integer!
+  send_to: Send to
+  tracking_number: Tracking No.
+  histroy: Histroy
+  next_page: Next Page
+  pre_page: Previous Page
+  event_end: Past!
+  nomore: No more comments
+  detail_address: Detail address
+  coordinate: Coordinate
+  event_address: Event address
+  new_groupbuy: Create Groupbuying Deal
+  new_event: Create New Voting
+  new_topic: Create New Wishlist
+  content: Content
+  durantion: Duration
+  day: Day
+  hour: Hour
+  minute: Minute
+  month: Month
+  second: Seconds
+  year: Year
+  contact: Contact
+  free: Free
+  remaining_time: Remaining Time
+  no_address: No Address
+  enter_address: Please Add Your Address
+  confirm_insure: Are you sure to delete?
+  sign_up_first: Sign Up First
+  join_now: Join Now!
+  pay_success: Paid Successfully!
+  apply_success: To complete the order please click the button below to make the payment
+  consignee: Consignee
+  discount: Discount
+  freightage: Delivery
+  total_price: Total
+  market_price: Market Price
+  groupbuy_price: Groupbuy Price
+  area: Area
+  detail: Detail
+  pay_online: Pay Online
+  pay_now: Pay Now
+  pay_offline: Pay Offline
+  delete_insure: Are you sure to delete it?
+  must_large_than_minimal: Quantity must be larger than minimal order quantity!
+  share_page: Click the share button on the top right conner to share this page
+  must_integer: Quantity must be integer!
+  unit_price: Unit Price
+  selling_price: Selling Price
+  weight_kg: Net. Weight(Kg)
+  en_title: English Title`
+  zh_title: Chinese Title
+  en_body: English Description
+  zh_body: Chinese Description
+  en_content: English Content
+  zh_content: Chinese Content
+  avatar: User's Photo
+  nickname: Nickname
+  group: Group
+  profession: Profession
+  male: Male
+  female: Female
+  unknown: Unknown
+  sex: Gender
+  me: My Account
+  my_orders: My Orders
+  order_status: Order Status
+  pay_status: Pay Status
+  ship_status: Ship Status
+  created_at: Create Time
+  signin_signup: Sign In / Sign Up
+  forum: Wishlist
+  forums: Wishlists
+  logistic_ruler: Logistic Rule
+  deal_english_title: Deal Title in English
+  new_logistic_rule: New Logistic Rule
+  edit_groupbuy: Deal Edit
+  settings: Settings
+  others: Others
+  my_groupbuys: My Deals
+  my_events: My Votes
+  my_topics: My Topics
+  login: Login
+  logistics: Logistics Rule
+  first_weight: First KG
+  additional_weight: Additional KG
+  save: Save
+  contact_us: Contact Us
+  wechat: Wechat
+  email: E-mail
+  tel: Mobile
+  contacts: Contacts
+  as_gift: Give As a Gift
+  choose_from_groupbuys: Choose From Histroy
+  goods_size: Format
+  goods_bbd: Expiration
+  products_store: Popular Deals
+  office_line: Office Line
+  work_time: Work Time
+  workday: From Monday To Friday
+  my_events: My Votes
+  my_forums: My Wish lists
+  ago: ago
+  province: Province
+  city: City
+  password: Password
+  password_confirmation: Password Confirmation
+  user_avatar: Avatar
+  about_groupmall: ABOUT GROUPMALL
+  submit: Submit
+  create_new_item: Create New Item
+  create_voting: Create Voting
+  voting: Voting
+  voting_result: Voting Result
+  create_vote_product: Create Vote Product
+  about_the_team: About The Team
+  management_team: Management Team
+  vote: Vote
+  voting_name: Voting Name
+  votings: Votings
+  delete_voting: Delete Voting
+  my_wishlist: My Wishlist
+  vote_now: Vote Now!
+  confirm_delete: Are you sure to delete?
+  published_wishlists: Published Wishlists
+  wishlist: Wishlist
+  wishlists_management: Wishlists Management
+  down_payment: Down Payment
+  publish: Publish
+  pay_for: Pay For
+  upload: Upload
+  posted_by: Posted By
+  description: Description
+  book_number: Booked
+  new_wishlist: Create Wishlist
+  downpayment_number: Downpayment Number

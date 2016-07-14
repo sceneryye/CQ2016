@@ -1,0 +1,30 @@
+<h3 class="title title-<%=good.goods_id%> desc">
+  商品描述<span class="expand"></span>
+</h3>
+<div class="detail detail-<%=good.goods_id%>">
+  <%=raw good.desc%>
+</div>
+
+<h3 class="title title-<%=good.goods_id%> material">
+  产地说明<span class="expand"></span>
+</h3>
+<div class="detail detail-<%=good.goods_id%>">
+  <%=raw good.place_info%>
+</div>
+
+<h3 class="title title-<%=good.goods_id%> mesure">
+  规格说明<span class="expand"></span>
+</h3>
+<div class="detail detail-<%=good.goods_id%> mesure_detail">
+      <%=raw good.spec_info%>
+</div>
+
+<!-- <h3 class="title title-<%=good.goods_id%> expr">
+  使用体验<span class="expand"></span>
+</h3>
+<div class="detail detail-<%=good.goods_id%>">     
+      <%if good.try_on%>
+          <%=good.try_on%>
+      <%end%>
+</div> -->
+

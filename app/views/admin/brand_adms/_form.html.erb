@@ -1,0 +1,78 @@
+<%= form_for :brand,:url =>@action_url, :method=>@method, :html => {:class => "form-horizontal"} do |f| %>
+  <fieldset>
+    <div class="control-group">
+      <%= f.label :brand_name, "基地名称*", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :brand_name%>
+        <span class="help-inline error"><%=@brand.errors[:brand_name].join(",")%></span>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :slug, "访问地址*", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :slug%>
+        <span class="help-inline error"><%=@brand.errors[:slug].join(",")%></span>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :status, "基地状态", :class => "control-label" %>
+      <div class="controls">
+       <select id="brand_status" name="brand[status]">
+          <%=brand_status_options(@brand.status)%>
+        </select>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :brand_logo, "基地logo", :class => "control-label" %>
+      <div class="controls">
+        <%=f.text_field :brand_logo,:value=>@brand.brand_logo,:placeholder=>"基地页Logo地址"%>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :brand_slogan, "基地口号", :class => "control-label" %>
+      <div class="controls">
+        <%=f.text_area :brand_slogan,:placeholder=>"基地口号",:class=>"span5",:rows=>3%>
+      </div>
+    </div>
+
+
+    <div class="control-group">
+      <%= f.label :detail_desc, "详细介绍", :class => "control-label" %>
+      <div class="controls">
+        <%= f.cktext_area :detail_desc, :toolbar => 'Easy',:language=>'zh-cn',:height => 300 %>
+      </div>
+    </div>
+    <fieldset id="menus">
+  <h5>基地页菜单</h5>
+  <div class="alert">提示: 多张图片用'|'分割,对应的alt也使用'|'分割,如：http://www.cq2016.cc/image1.jpg|http://www.cq2016.cc/image2.jpg ，对应alt为： 图片描述1|图片描述2</div>
+      <%@brand.context.each_with_index do |menu,index|%>
+      <div class="item">
+        <span class='no'><%=index+1%>.</span>
+        <%=text_field_tag "brand_page[context][][menu_name]",menu["menu_name"],:placeholder=>"菜单名",:class=>"input_small"%>
+        <%=text_field_tag "brand_page[context][][image_url]",menu["image_url"],:placeholder=>"图片地址"%>
+         <%=text_field_tag "brand_page[context][][image_alt]",menu["image_alt"],:placeholder=>"图片描述信息(alt)"%>
+        <%=link_to "&times;".html_safe,"javascript:void(0);",:class=>"delete"%>
+        <span class="pos-control">
+              <i class=" icon-arrow-up"></i>
+              <i class=" icon-arrow-down"></i>
+        </span>
+      </div>
+      <%end if @brand.context%>
+
+  <div><%=link_to "+添加","javascript:void(0);",:class=>"add"%></div>
+</fieldset>
+
+
+    <%#=render "admin/shared/addressable_form", :form=>f, :resource=>@brand%>
+    <%=render "admin/shared/metable", :form=>f, :resource=>@brand%>
+    
+    <div class="control-group">
+      <div class="controls">
+        <%= f.submit '确定', :class => "button" %>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '返回', admin_brand_adms_path %>
+      </div>
+    </div>
+
+  </fieldset>
+<% end %>

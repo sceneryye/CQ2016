@@ -1,0 +1,43 @@
+<%= form_for @goods_cat,:url => admin_goods_cat_path(@goods_cat), :html => {:class => "form-horizontal"} do |f| %>
+  <fieldset>
+    <div class="control-group">
+      <%= f.label :addr, "分类名称", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :cat_name%>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :addr, "上级分类", :class => "control-label" %>
+      <div class="controls">
+        <%=f.select :cat_id,options_from_collection_for_select(Category.all,:cat_id,:full_path_name,params[:id].to_i),{:include_blank=>"请选择"},{:class=>"span3"} %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :addr, "商品类型", :class => "control-label" %>
+      <div class="controls">
+        <%=f.select :type_id, options_from_collection_for_select(GoodType.all,:type_id,:name,GoodCat.find(params[:id]).type_id),{:include_blank=>"请选择"},{:class=>"span3"} %>
+      </div>
+    </div>
+    <div class="control-group">
+      <fieldset>
+        <legend>作废</legend>
+        <%= f.radio_button :disabled,'true'%><label for="pokemonRed">是</label>
+        <%= f.radio_button :disabled,'false'%><label for="pokemonBlue">否</label>
+      </fieldset>
+    </div>
+     <div class="control-group">
+      <%= f.label :p_order, "排序(越大越靠前）", :class => "control-label" %>
+      <div class="controls">
+        <%=f.number_field :p_order%>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <div class="controls">
+        <%= f.submit '确定', :class => "button" %>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '返回', admin_goods_cats_path %>
+      </div>
+    </div>
+
+  </fieldset>
+<% end %>

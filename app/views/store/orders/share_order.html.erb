@@ -1,0 +1,38 @@
+<div class="am-panel am-panel-danger">
+  <div class="am-panel-hd" style="text-align: center" >晒单</div>
+  <%@order.order_items.each do |order_item|%>
+
+      <a href="/mproducts?id=<%=order_item.good.bn%>&supplier_id=<%=@order.supplier_id%>&fp=mproducts">
+      <div class="am-g am-intro-bd">
+
+        <div class="am-intro-left am-col col-sm-5">
+          <%=image_tag order_item.good.medium_pic,:class=>"thumb" if order_item.item_type == 'product'%>
+          <%=image_tag order_item.product.gift_image_url,:class=>"thumb" if order_item.item_type == 'gift'%></div>
+        <div class="am-intro-right am-col col-sm-7">
+          <p><%= order_item.name%></p>
+         </div></div>   </a>
+
+
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
+
+
+
+      <div >
+        <span class="span"> &nbsp; &nbsp;商品价格：</span>        <span style="float: right">   <%=order_item.price%> &nbsp; &nbsp;    </span>
+      </div>
+
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
+
+
+
+      <div >
+        <span class="span"> &nbsp; &nbsp;推广佣金：</span>        <span style="float: right">   <%=order_item.good.share*order_item.good.default_product.price%> &nbsp; &nbsp;    </span>
+      </div>
+
+
+
+      <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+  <%end%>
+
+
+</div>

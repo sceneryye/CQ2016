@@ -1,0 +1,50 @@
+<% provide :title, '昌麒生态园-基地风光' %>
+
+<div class="row small-up-1 large-up-2">
+    <%@menu_brands.each do |brand|%>
+    <div class="column callout alert">
+     <div id="grad" >  
+    <%=link_to brand_path(brand) do%>
+   
+         <%=image_tag brand.brand_logo,:alt=>brand.brand_name, class: "thumbnail"%> 
+         <div id="grad1">
+            <h3 id="ht3"><%=brand.brand_slogan%></h3></div></div>
+    <%end%>
+    </div>
+    <%end if @menu_brands%>
+</div>
+<hr>
+
+<%=render "layouts/metable", :resource=>nil%>
+
+<%=content_for :cover do%>
+	<%=raw Config.get(:brand_cover) %>
+<%end%>
+
+<style>
+	#grad {
+		 position:relative;	
+	}
+#grad1 {
+	position:absolute;
+	left;0;bottom:12px;
+	height:60px;
+	width:100%;
+	background:black;
+   /* background: -webkit-linear-gradient(white, black); /* Safari 5.1 - 6.0 */
+    /* background: -o-linear-gradient(white, black); /* Opera 11.1 - 12.0 */
+    /* background: -moz-linear-gradient(white, black); /* Firefox 3.6 - 15 */
+    /* background: linear-gradient(white,black); /* 标准的语法（必须放在最后） */
+	filter:alpha(opacity=50); 
+    -moz-opacity:0.5; 
+     opacity:0.5;
+
+}
+	#ht3 {
+	
+    padding:18px;
+    font-size: 17px;
+    height:auto;
+	color:white;
+	}
+</style>

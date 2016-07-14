@@ -1,0 +1,190 @@
+  <h4><%=@card.no%></h4>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+     <input id='password' value=''>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <button class="button topup-card">单卡充值</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <button class="button pay-with-password">密码支付</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <button class="button card-reset-password">更改密码</button>
+    </div>
+  </div>
+
+ 
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <button class="button get-card-info">查询卡片信息</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <button class="button get-card-trade-log">查询交易记录</button>
+      <a href="/admin/cards/get_trade_log">log</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <button class="button pay-for-another">代付</button>
+    </div>
+  </div>
+
+
+<script>
+  $(document).ready(function(){
+    var order_id = '999990053990001_' + "<%= Time.now.to_i %>" + "<%= rand(100).to_s %>";
+
+
+  // 单卡充值
+  $('.topup-card').on('click', function(){
+    var card_id = '<%=@card.no%>';
+    var amount = '10000';
+    var top_up_way = '1';
+    var opr_id = '0229000040';
+    var url = "<%= topup_admin_cards_path %>";
+    $.post(url, {order_id: order_id, card_id: card_id, amount: amount, top_up_way: top_up_way, opr_id: opr_id}, function(e){
+      if(e.data.ppcs_cardsingletopup_add_response) {
+        console.log(e.data.ppcs_cardsingletopup_add_response);
+        alert('成功充值' + parseFloat(amount/100) + '元！');
+      }
+      else {
+        console.log(e.data.error_response)
+        alert('操作失败！' + e.data.error_response.sub_msg);
+      }
+    });
+  });
+
+  // 密码支付
+  $('.pay-with-password').on('click', function(){
+    var card_id = '<%=@card.no%>';
+    var mer_order_id = order_id;
+    var amount = '100';
+    var password = $('#password').val();
+    var url = "<%= pay_with_pwd_admin_cards_path %>";
+    $.post(url, {order_id: order_id, card_id: card_id, mer_order_id: mer_order_id, amount: amount, password: password}, function(e){
+      if(e.data.card_paywithpassword_add_response) {
+        console.log(e.data.card_paywithpassword_add_response);
+        alert('成功支付' + parseFloat(amount/100) + '元！');
+      }
+      else {
+        console.log(e.data.error_response)
+        alert('操作失败！' + e.data.error_response.sub_msg);
+      }
+    });
+  });
+
+  // 更改密码
+  $('.card-reset-password').on('click', function(){
+    var card_id = '<%=@card.no%>';
+    var password = '111111';
+    var url = "<%= reset_password_admin_cards_path %>";
+    $.post(url, {order_id: order_id, card_id: card_id, password: password}, function(e){
+      if(e.data.ppcs_cardpassword_rest_response) {
+        console.log(e.data.ppcs_cardpassword_rest_response);
+        alert('密码修改成功！');
+      }
+      else {
+        console.log(e.data.error_response)
+        alert('操作失败！' + e.data.error_response.sub_msg);
+      }
+    });
+  });
+
+
+  // 查询卡片信息
+  $('.get-card-info').on('click', function(){
+    var card_id = '<%=@card.no%>';
+    var password = $('#password').val();
+    var url = "<%= get_info_admin_cards_path %>";
+    $.post(url, {card_id: card_id, password: password}, function(e){
+      if(e.data.card_cardinfo_get_response) {
+        console.log(e.data.card_cardinfo_get_response);
+        var msg = e.data.card_cardinfo_get_response.card_info.card_product_info_arrays.card_product_info[0]
+        var state = '';
+        switch(msg.product_stat) {
+          case 0:
+          state = '正常';
+          break;
+          case 1:
+          state = '挂失';
+          break;
+          case 2:
+          state = '冻结';
+          break;
+          case 3:
+          state = '作废';
+          break;
+          default:
+          state = '未知';
+          break;
+        }
+        message = '卡号：' + card_id + ';  认证日期：' + e.data.card_cardinfo_get_response.card_info.validity_date +';  余额：' + parseFloat(msg.account_balance / 100) + '元' + ';  产品名称：' + msg.product_name + ';  可用余额：' + parseFloat(msg.valid_balance / 100) + '元' + ';  产品有效期：' + msg.validity_date + ';  产品状态：' + state;
+        alert(message);
+      }
+      else {
+        console.log(e.data.error_response)
+        alert('操作失败！' + e.data.error_response.sub_msg);
+      }
+    });
+  });
+
+  // 交易记录查询
+  $('.get-card-trade-log').on('click', function(){
+    var card_id = '<%=@card.no%>';
+    var password = $('#password').val();
+    var begin_date = "<%= (Time.now - 3600 * 24 * 28).strftime('%Y%m%d') %>";
+    var end_date = "<%= (Time.now + 3600 * 24 ).strftime('%Y%m%d') %>";
+    var page_no = '1';
+    var page_size = '20';
+    var url = "<%= get_trade_log_admin_cards_path %>";
+    $.post(url, {order_id: order_id, card_id: card_id, password: password, begin_date: begin_date, end_date: end_date, page_no: page_no, page_size: page_size}, function(e){
+
+      if(e.data.ppcs_txnlog_search_response) {
+        console.log(e.data.ppcs_txnlog_search_response);
+        alert(e.data.ppcs_txnlog_search_response);
+      }
+      else {
+        console.log(e.data.error_response)
+        alert('操作失败！' + e.data.error_response);
+      }
+    });
+  });
+
+  // 代付
+  $('.pay-for-another').on('click', function(){
+    var BANK_CODE = '0102';
+    var ACCOUNT_NO = '622588121251757643';
+    var ACCOUNT_NAME = '测试';
+    var ACCOUNT_PROP = '0';
+    var AMOUNT = 200;
+
+    var url = "<%= pay_to_client_admin_cards_path %>";
+    $.post(url, {pay_to_client: {BANK_CODE: BANK_CODE, ACCOUNT_NO: ACCOUNT_NO, ACCOUNT_NAME: ACCOUNT_NAME, ACCOUNT_PROP: ACCOUNT_PROP, AMOUNT: AMOUNT}}, function(e){
+      if(e.info) {
+        console.log(e.data.info);
+        alert('该卡已成功返现！');
+      }
+      else {
+        console.log(e.data.info)
+        alert('操作失败！' + e.data.info);
+      }
+    });
+  });
+
+
+});
+</script>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>打印 - <%=@title%></title>
+  <%= stylesheet_link_tag  "print", :media => "all" %>
+</head>
+<body>
+
+<div>
+	<img src="http://www.CQ2016.cc/assets/logo.png" />
+</div>
+
+<%= yield %>
+
+</body>
+</html>

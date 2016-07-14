@@ -1,0 +1,36 @@
+<% provide :title, '昌麒生态园-首页' %>
+<%= render 'slider' %>
+<%#=@home.body.html_safe if @home.body.present?%>
+
+<div class="row small-up-2 medium-up-3 large-up-5">
+    <%@goods.each do |goods|%>
+    <div class="column">
+        <%=link_to good_path(goods.bn), :target=>"_blank" do %>
+            <%=image_tag goods.list_default_pic,:alt=>goods.name, class: "thumbnail"%>
+        <%end%>
+        <h6>
+        <%=link_to good_path(goods.bn), :target=>"_blank" do %>
+            <%=goods.name%>&nbsp;<%=goods.spec_info%>
+        <%end%>        
+        </h6>
+        <p class='text-center'>
+            <span class='price'><%=number_to_currency goods.price,:unit=>"¥",:precision=>2%></span>
+            <span class='mktprice'><%=number_to_currency goods.mktprice,:unit=>"¥",:precision=>2%></span>
+        </p>
+        <a href="#" class="button expanded" style="display:none">Buy</a>
+    </div>
+    <%end if @goods%>
+</div>
+<hr>
+<div class="row small-up-1 large-up-2">
+    <%@menu_brands.limit(2).each do |brand|%>
+    <div class="column">
+        <%=link_to brand_path(brand) do%>
+       
+             <%=image_tag brand.brand_logo,:alt=>brand.brand_name, class: "thumbnail"%> 
+             <div id="grad1">
+                <h3 id="ht3"><%=brand.brand_slogan%></h3></div>
+        <%end%>
+    </div>
+    <%end if @menu_brands%>
+</div>

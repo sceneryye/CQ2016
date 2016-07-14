@@ -1,0 +1,132 @@
+ <section id="main-slider" class="carousel">
+        <div class="carousel-inner" style="display:none" >
+            <div class="item active">
+                <div class="container">
+                    <div class="carousel-content">
+                        <img src="/images/show/slice_01.jpg" style="width:100%">
+                    </div>
+                </div>
+            </div><!--/.item-->
+             <div class="item">
+                <div class="container">
+                    <div class="carousel-content">
+                        <img src="/images/show/slice_02.jpg" style="width:100%">
+                    </div>
+                </div>
+            </div><!--/.item-->
+             <div class="item">
+                <div class="container">
+                    <div class="carousel-content">
+                        <img src="/images/show/slice_03.jpg" style="width:100%">
+                    </div>
+                </div>
+            </div><!--/.item -->
+           
+        </div><!--/.carousel-inner-->
+
+        <a class="prev" href="#main-slider" data-slide="prev"><i class="icon-angle-left"></i></a>
+        <a class="next" href="#main-slider" data-slide="next"><i class="icon-angle-right"></i></a>
+ </section><!--/#main-slider-->
+
+ <section id="products" class="pricing">
+        <div class="container">
+            <div class="box first">
+                 <div class="center">
+                    <h2 style="color:#000000">产品中心</h2>
+                </div>
+            <ul class="portfolio-filter">
+                <li><a class="button active" href="#" data-filter="*">所有类别</a></li>
+                <%@categories.each do |category|%>
+                <li><a class="button" href="#" data-filter=".category<%=category.cat_id%>"><%=category.cat_name%></a></li>
+                <%end if @categories%>
+            </ul><!-- 
+                <div id="pricing-table" class="row"> -->
+                 <ul class="portfolio-items" style="text-align: center">
+            <%@goods.each do |goods|%>
+                    <li class=" plan portfolio-item category<%=goods.cat.cat_id%>" >
+
+                    <div class="item-inner" >
+                    <!-- <div class="col-sm-4"> -->
+                        
+                        <div class="plan-name"><%=goods.name%></div>
+                           <div class="product-pic">
+                                <%=link_to good_path(goods.bn), :target=>"_blank" do %>
+                                    <%=image_tag goods.list_default_pic,:alt=>goods.name%>
+                                    <%#=image_tag goods.list_hover_pic,:alt=>goods.name,:class=>"hover"%>
+                                <%end%>
+                            </div>
+
+                           <!--  <div class="portfolio-image">
+                               <%=image_tag goods.list_default_pic,:alt=>goods.name%>
+                                <div class="overlay">
+                                    <a class="preview button" title="Lorem ipsum dolor sit amet" href="<%=goods.big_pic%>"><i class="icon-eye-open"></i></a>  
+                                </div>
+                            </div>  -->
+
+                            <div class="plan-price1">会员价： ¥<%=(goods.price).round if goods.price%></div>
+                            <div style="color:#000000">市场价： ¥<%=goods.price%></span></div>  
+                            <!-- <li>市场价： ¥<span style="text-decoration:line-through;"><%=goods.mktprice%></span></li>      -->                       
+                            <!-- <div class="plan-action">
+                            <%#=link_to "查看详情",good_path(goods.bn),:target=>"_blank",:class=>"button expanded"%>
+                            </div> -->
+                    </div>
+                    </li>
+            <%end if @goods%> 
+        </ul>
+                </div> 
+            </div> 
+        </div>
+ </section><!--/#products-->
+
+<section id="contact">
+    <div class="container">
+        <div class="box last">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1>留言咨询</h1>
+                    <p>请留下您的联系方式，我们将尽快回复您。</p>
+                    <div class="status alert alert-success" style="display: none"></div>
+                    <form id="main-contact-form" class="contact-form" name="contact-form" method="post" action="sendemail.php" role="form">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" required="required" placeholder="姓名">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" required="required" placeholder="Email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="columns small-12">
+                                <div class="form-group">
+                                    <textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="请输入留言"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="button button-success expanded">提交留言</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div><!--/.col-sm-6-->
+                <div class="col-sm-6">
+                    <h1>联系方式</h1>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3><a href="tel:4008264568">400-826-4568</a></h3>
+                            <address>
+                                <strong style="color:#000000">昌麒投资有限公司</strong><br>
+                                浙江省杭州市西湖区西湖乡茅家埠村爱丁堡酒店<br>
+                            </address>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><img src='/img/map.gif' style='width:100%'></div>
+                    </div>
+                </div><!--/.col-sm-6-->
+            </div><!--/.row-->
+        </div><!--/.box-->
+    </div><!--/.container-->
+</section><!--/#contact-->

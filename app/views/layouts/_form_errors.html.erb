@@ -1,0 +1,10 @@
+<% if object.errors.any? %>
+    <div class="row panel callout radius">
+      <p><%= I18n.t 'errors.messages.blank' %></p>
+      <ul class="square">
+        <% object.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>

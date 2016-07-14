@@ -1,0 +1,18 @@
+    <ul class="breadcrumb">
+      <li>
+        <span>当前位置 ：</span>
+      </li>
+      
+      <%if action_name == 'index'%>
+              <li class="active">基地专区</li>
+      <%end%>
+
+      <%if action_name == 'show'%>
+            <li>
+              <%=link_to "基地专区", brands_path%>
+            </li>
+            <li class="active">
+              <%=@brand.brand_name if @brand%>
+            </li>
+      <%end%>
+    </ul>

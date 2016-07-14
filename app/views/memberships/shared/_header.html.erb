@@ -1,0 +1,45 @@
+<div id="header">
+  <div class="container">
+    <div id="imodec_logo">
+      <a href="/"><img alt="昌麒" src="/assets/store/logo_big.png"></a>
+    </div>
+    <div id="imodec_slogan">
+      <img alt="昌麒生态园" src="/assets/store/slogan.png">
+    </div>
+    <div id="account">
+      <div id="tel">400-826-4568</div>
+      <ul id="login_tools">
+        <li>
+          <div style="display: block;" id="member_bar_253" class="bar">
+            <%if @user%>
+            <span class="login_name" id="uname_253">
+              <%=truncate2(@user.account.login_name,:length=>5)%>
+            </span>
+            <a class="loggedin" href="/member">会员中心</a>
+            <a class="loggedin" href="/logout">退出</a>
+            <%else%>
+              <a class="loggedin login" href="javascript:void(0)">登录</a>
+              <a class="login" href="javascript:void(0);" id="reg" style="background:none;padding-left:0px;">注册</a>
+               <a class="loggedin" href="/vip" >VIP中心</a>
+        
+            <%end%>
+          </div>
+        </li>
+        <li>
+            <a id="cart_link" href="/cart.html" class="cart-link">
+              购物车
+              <span class="cart-number">(<%=@user ? @user.cart_total_quantity : 0 %>)</span></a>
+            </li>
+        <li>
+         <!--  <div id="support">
+                  <script language="javascript" src="http://kf1.learnsaas.com/chat/chatClient/textButton.js?companyID=18880&configID=42678&codeType=custom" async></script>
+          </div> -->
+        </li>
+        <li><a href="http://weibo.com/imodec" target="_blank" id="weibo"></a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <%= render "store/layouts/nav_menu" %>
+
+</div>

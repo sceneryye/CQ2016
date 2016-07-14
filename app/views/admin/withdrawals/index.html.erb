@@ -1,0 +1,55 @@
+<div class='columns medium-6'>
+  <div class="button-group">
+    <%=link_to "账户总额:#{@balance}",'#',:class=>"button hollow"%>
+    <%=link_to "未提现",admin_withdrawals_path(:status=>0),:class=>"button #{@s0}"%>
+    <%=link_to "提现中",admin_withdrawals_path(:status=>1),:class=>"button #{@s1}"%>
+    <%=link_to "已提现",admin_withdrawals_path(:status=>2),:class=>"button #{@s2}"%>
+    <%=link_to "未成功",admin_withdrawals_path(:status=>-1),:class=>"button #{@s_1}"%>
+    <%=link_to "取消提现",admin_withdrawals_path(:status=>-2),:class=>"button #{@s_2}"%>
+  </div>
+</div>
+
+<table class="table table-striped" id="withdrawal_list">
+  <tr>
+    <th>提现号</th>
+    <th>会员卡</th>
+    <th>会员卡类型</th>    
+    <th>姓名</th>
+    <th>银行卡号</th>
+    <th>银行名称</th>
+    <th>发卡支行</th>
+    <th>申请时间</th>
+    <th>提现金额</th>
+    <th>状态</th>
+    <th>提现</th>
+  </tr>
+
+  <%@withdrawals.each  do |withdrawal|%>
+      <tr>
+        <td><%=withdrawal.id%></td>
+        <td><%=withdrawal.user.member_card.card.no%></td>
+        <td><%=withdrawal.user.member_card.card.type_text%></td>
+        <td><%=withdrawal.user.member_card.user_name%></td>
+        <td><%=withdrawal.user.member_card.bank_card_no%></td>
+        <td><%=withdrawal.user.member_card.bank_name%></td>
+        <td><%=withdrawal.user.member_card.bank_branch%></td>
+        <td><%=l withdrawal.created_at%></td>
+        <td>¥<%=withdrawal.amount%></td>   
+        <td><%=withdrawal.status_text%></td>
+        <td><%if withdrawal.status==0%>
+            <%=link_to '发放提现', pay_admin_withdrawal_path(withdrawal),class:'button hollow'%>
+            <%else%>
+            <%=l withdrawal.updated_at%>
+            <%end%>
+        </td>
+
+      </tr>
+  <%end if @withdrawals%>
+  <%if @withdrawals.blank?%>
+  <tr><td colspan='3'>暂无提现记录</td></tr>
+  <%end%>
+
+</table>
+<div class="paginations">
+  <%=will_paginate  @withdrawals,renderer: FoundationPagination::Rails,:container=>false,renderer: FoundationPagination::Rails  %>
+</div>

@@ -1,0 +1,110 @@
+<section id="contact">
+    <div class="container">
+        <div class="box last">
+            <div class="row">                    
+                <div class="columns small-12 col-md-6">
+                    <h1>注册</h1>
+                    <p> </p>                        
+                    <%=form_for :user,:url =>@action_url, :method=>@method,:html=>{ :role=>"form",:id=>"register_form",data: {type: "script"}} do |f|%>
+                         <div class="row">
+                             <div class="col-sm-11">
+                                <div class="form-group">
+                                    <%=f.text_field :login_name,:value=>"",:class=>"form-control",:placeholder=>"会员名",:required=>"required"%>
+                                </div>
+                                <div class="help-block" rel="user_login_name"></div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="help-block">*</div>
+                            </div>
+                        </div>                  
+                         <div class="row">
+                             <div class="col-sm-11">
+                                <div class="form-group">
+                                    <%=f.text_field :email,:value=>"",:class=>"form-control",:placeholder=>"邮箱",:required=>"required"%>
+                                </div>
+                                <div class="help-block" rel="user_email"></div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="help-block">*</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-sm-11">
+                                <div class="form-group">
+                                    <%=f.text_field :mobile,:value=>"",:class=>"form-control",:placeholder=>"手机",:required=>"required"%>
+                                </div>
+                                <div class="help-block" rel="user_mobile"></div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="help-block">*</div>
+                            </div>
+                        </div>
+                         <div class="row">
+                             <div class="columns small-12">
+                                <div class="form-group">
+                                    <%=f.text_field :real_name,:value=>"",:class=>"form-control",:placeholder=>"真实姓名",:required=>"required"%>
+                                </div>
+                            </div>
+                        </div>                           
+                       <!--  <div class="row">
+                             <div class="columns small-12">
+                                <div class="form-group">
+                                    <%#=f.text_field :discount_code,:value=>"",:class=>"form-control",:placeholder=>"特惠码"%>
+                                </div>
+                                <div class="help-block" rel="user_discount_code"></div>
+                            </div>
+                        </div> -->
+                     <%if @from!='weixin'  %>    
+                        <div class="row">
+                             <div class="col-sm-11">
+                                <div class="form-group">
+                                <%=f.password_field :login_password,:value=>"",:class=>"form-control",:placeholder=>"密码",:required=>"required"%>
+                                </div>
+                                <div class="help-block" rel="user_login_password"></div>
+                                <P class="frm_tips">字母、数字或者英文符号，最短6位，区分大小写</P>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="help-block">*</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-sm-11">
+                                <div class="form-group">
+                                    <%=f.password_field :login_password_confirmation,:value=>"",:class=>"form-control",:placeholder=>"再次输入密码",:required=>"required"%>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="help-block">*</div>
+                            </div>
+                        </div>
+                    <%end%>
+                        <div class="row">
+                            <div class="columns small-12">                 
+                                <div class="help-block1 status alert alert-success" style="display: none"></div>
+                                <input type="checkbox" checked="checked" value="agree" name="user[license]" id="license" class="x-input required" autocomplete="off">
+                                <label for="license" class="checkbox_label" id="i_agree">&nbsp;我已阅读并同意：</label><a href="/pages/zhucexieyi" target="_top"  id="reg_term">会员注册协议</a>
+                                <span id="and">和</span>&nbsp;<a href="/pages/ysbh" id="privacy" target="_top">隐私保护政策</a>
+                                <div class="help-block" rel="user_license"></div>
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="columns small-12">                                    
+                                <div class="form-group">
+                                     <%=f.submit "注 册",:class=>"button button-success expanded"%>
+                                     <%=link_to "返 回","#",:class=>"button button-success expanded"%>            
+                                </div>
+                            </div>
+                        </div>
+                    <%end%>              
+                </div><!--/.columns small-12-->
+            </div><!--/.row-->
+        </div><!--/.box-->
+    </div><!--/.container-->
+</section><!--/#contact-->
+
+<script src="/assets/jquery.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery_ujs.js?body=1" type="text/javascript"></script>
+<script src="/assets/bootstrap-transition.js?body=1" type="text/javascript"></script>
+<script src="/assets/bootstrap-carousel.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery_placeholder_min.js?body=1" type="text/javascript"></script>
+<script src="/assets/login.js?body=1" type="text/javascript"></script>

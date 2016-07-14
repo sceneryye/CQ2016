@@ -1,0 +1,40 @@
+<% provide :title, '昌麒生态园-提现记录' %>
+<%=render partial: 'breadcrembs' , locals:{current:'提现记录'}%>
+<!-- <%= form_for :withdrawals, data: {abide: ''} do|f| %>
+    <%#= render 'layouts/form_errors', object: @withdrawals%>
+      <table class="table">
+        <thead>
+          <tr>
+            <th> <%#= f.label :start_time %>
+              <%= f.text_field :start_time, :value => '', required: true,:class=>"fdatepicker",:id=>"dpd2",placeholder:'开始时间'%>
+            </th>
+            <th><%#= f.label :end_time %>
+             <%= f.text_field :end_time, :value =>'',  required: true,:class=>"fdatepicker",:id=>"dpd1",placeholder:'结束时间'%>
+           </th>
+         </tr>
+       </thead>
+     </table>
+      <%=f.submit '查询', class: 'button expanded'%>
+<%end%> -->
+
+<table class="table table-striped" id="withdrawal_list">
+  <tr>
+    <th>流水号</th>
+    <th>提现时间</th>
+    <th>提现金额</th>
+    <th>状态</th>
+  </tr>
+
+  <%@withdrawals.each  do |withdrawal|%>
+      <tr>
+        <td><%=withdrawal.id%></td>
+        <td><%=l withdrawal.created_at%></td>
+        <td>¥<%=withdrawal.amount%></td>   
+        <th><%=withdrawal.status_text%></th> 
+      </tr>
+  <%end if @withdrawals%>
+  <%if @withdrawals.blank?%>
+  <tr><td colspan='3'>暂无提现记录</td></tr>
+  <%end%>
+
+</table>

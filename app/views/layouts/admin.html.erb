@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : "昌麒后台管理" %></title>
+
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <div class="expanded row ">
+      <div class="columns small-1 left callout small" data-sticky-container>
+        <div class="sticky" data-sticky data-margin-top="0">
+          <%=render "admin/shared/menu"%>
+        </div>
+      </div>
+      <div class="columns small-11 container admin <%=controller_name%> <%=action_name%>">
+        <%= render 'layouts/flash_messages'%>
+        <%= yield %>
+      </div>
+    </div>
+    <div class="row columns small-12">
+      <%=render "admin/shared/footer"%>
+    </div>
+
+    <link rel="stylesheet" media="screen" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  </body>
+</html>

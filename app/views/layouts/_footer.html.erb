@@ -1,0 +1,48 @@
+
+<div class="row columns small-12">
+ <footer id="footer">
+   <hr>
+   <small>
+     &copy; 2016 - <span id='copyright_year'></span>, 昌麒投资有限公司<br> 
+       沪ICP备16007395号
+  </small>
+</footer><!--/#footer-->
+
+<script>
+    var myDate = new Date();
+    var currentYear = myDate.getFullYear(); 
+    document.getElementById('copyright_year').innerText=currentYear;
+</script> 
+</div>
+
+<div class="row columns small-12"  id="bottomNav">
+  <%case controller_name
+    when 'home'
+      @home_active = 'active'
+    when 'cart'
+      @cart_active = 'active'
+    when 'search' 'cats'
+      @search_active = 'active'
+    else'users'
+      @users_active = 'active'
+  end%>
+  <div class="expanded button-group hide-for-large ">
+    <%=link_to root_path,class: "button #{@home_active}" do%>
+      <i class="fa fa-home"></i>
+    <%end%>
+    <%=link_to cart_index_path,class: "button #{@cart_active}" do%>
+      <i class="fa fa-cart-plus"></i>
+    <%end%>
+    <%=link_to cats_path,class: "button #{@search_active}" do%>
+      <i class="fa fa-search"></i>
+    <%end%>
+    <%if signed_in?
+        @user_url = member_path
+    else
+        @user_url= login_path
+    end%>
+    <%=link_to @user_url,class: "button #{@users_active}" do%>
+      <i class="fa fa-user"></i>
+    <%end%> 
+  </div>
+</div>

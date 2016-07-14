@@ -1,0 +1,31 @@
+<div>
+  <h4>会员卡券</h4>
+</div>
+  <div><%=link_to '生成',new_admin_discount_code_path%></div>
+<table class="table table-bordered table-hover">
+  <tr>
+    <th>卡号</th>
+    <th>名称</th>
+    <th>金额</th>
+    <th>状态</th>
+    <th>领取时间</th>
+    <th>会员</th>
+  </tr>
+
+  <% @codes.each do |code| %>
+      <tr>
+        <td><%=code.code%><span style='color:white'>||<%=code.password%></span></td>
+        <td><%=code.card_name%></td>
+        <td><%=code.value%></td>
+        <td><%=code.status%></td>
+        <td><%=code.updated_at if code.created_at!=code.updated_at%></td>
+        <td><%=code.user.name if code.member_id%></td> 
+
+        <!-- <td><%= link_to '编辑', edit_admin_discount_code_path(code) %></td> -->
+      </tr>
+  <% end %>
+</table>
+
+<div class="pagination">
+  <%= will_paginate @codes,renderer: FoundationPagination::Rails, :container => false %>
+</div>

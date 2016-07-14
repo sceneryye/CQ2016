@@ -1,0 +1,62 @@
+<% provide :title, '昌麒生态园-会员卡信息' %>
+<%=render partial: 'breadcrembs' , locals:{current:@current}%>
+<%if session[:card_pwd].blank? &&  params[:id]=='2'%>
+	<%=render :partial=>"login"%>
+<%else%>
+	<div class="row">
+		<div class="large-6 columns">
+			<div class="callout">
+			<table>
+				<tr>
+				  <th>会员卡号</th>
+				  <td><%=@user.card_num%></td>
+				</tr>
+				<tr>
+				  <th>会员类型</th>
+				  <td><%=level(@user.member_card.card.card_type)%></td>
+				</tr>
+				<%case params[:id]
+					when '0'%>
+					<tr>
+					  <th>会员姓名</th>
+					  <td><%=@user.name%></td>
+					</tr>
+					<%if @user.member_card && @user.member_card.bank_name.present?%>
+					<tr>
+					  <th>绑定银行</th>
+					  <td><%=@user.member_card.bank_name%></td>
+					</tr>
+					<tr>
+					  <th>开户支行</th>
+					  <td><%=@user.member_card.bank_branch%></td>
+					</tr>
+					<tr>
+					  <th>银行卡号</th>
+					  <td><%=@user.member_card.bank_card_no%></td>
+					</tr>
+					<tr><td colspan='2'><%=link_to '修改绑定银行信息', bank_cards_path, class:'button expanded'%></td></tr>
+					<%else%>
+					<tr>
+					  <th>未绑定银行卡</th>
+					  <td><%=link_to '去绑定', bank_cards_path, class:'button expanded'%></td>
+					</tr>
+					<%end%>
+				<%when '1','2'%>				
+					<tr>
+					  <th>卡内余额：</th>
+					  <td><%=@card_info.member_advance%></td>
+					</tr>
+					<tr>
+					  <th>最近查询时间：</th>
+					  <td><%=l Time.at(@card_info.mtime)%></td>
+					</tr>
+					<tr>
+					  <th colspan='2'><%=link_to "查询当前余额信息",card_path(2),:class=>"button expanded"%></th>
+					</tr>
+				<%end%>
+			</table>
+			
+			</div>
+		</div>
+	</div>
+<%end%>

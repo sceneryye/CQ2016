@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : "昌麒生态园" %></title>
+   
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+    <script>
+      function isWeixinBrowser(){
+          var ua = navigator.userAgent.toLowerCase();
+          var wp = /windows phone/.test(ua);
+          var others = /micromessenger/.test(ua);
+          
+          return (wp || others) ? true : false ;
+      }
+
+      <% return_url={:return_url => request.url.sub('?from=weixin_menu','').force_encoding('UTF-8')}.to_query%>
+      var iswxb = isWeixinBrowser();
+
+       if (iswxb ){
+        <%if current_account.nil? || current_account.openid.blank?%> 
+              location.href = "/auto_login?id=1&<%=return_url%>";
+        <%end %>
+       }
+    </script>
+  </head>
+
+  <body>
+
+ <%
+  case controller_name
+    when 'home'
+      @home_active = 'active'
+    when 'cats','goods'
+      @product_active = 'active'
+    when 'brands'
+      @brand_active = 'active'
+    when 'pages'
+      if params[:id] =='contactus'
+        @page_contactus = 'active'
+      elsif
+        @page_aboutus = 'active'
+      end
+    when 'sessions'
+      @session_active = 'active'
+    else
+      @member_active = 'active'
+  end
+%>
+
+    <!--Navigation -->
+    <div class="top-bar">
+      <div class="row nav">
+        <div class="top-bar-left">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li class="menu-text"><a href='/'><img src="/assets/logo.png"></a></li>
+            <li class="has-submenu">
+              <%=link_to '产品中心', cats_path, class:"menu-link #{@product_active}"%>
+              <ul class="submenu menu vertical" data-submenu>
+               <%@menu_categories.each do |category|%>
+                <li><%=link_to category.cat_name, cat_path(category)%></li> 
+              <%end if @menu_categories%>
+              </ul>
+            </li>
+            <li class="has-submenu">
+              <%=link_to '基地风光', brands_path, class:"menu-link #{@brand_active}"%>
+              <ul class="submenu menu vertical" data-submenu>
+              <%@menu_brands.each do |brand|%>
+                <li><%=link_to brand.brand_name, brand_path(brand)%></li> 
+              <%end if @menu_brands%>
+              </ul>
+            </li>
+            <%if signed_in?%>
+            <li class="has-submenu hide-for-small-only">
+               <%=link_to '会员中心', member_path, class:"menu-link #{@member_active}"%>
+             <!--  <ul class="submenu menu vertical" data-submenu>
+               
+                <li><%=link_to '账户管理', member_path, class:"menu-link #{@member_active}"%></li>
+                <li><a href="/member/orders">我的订单</a></li>
+                <li><%=link_to "我的购物车", cart_index_path%></li>                        
+                <li><a href="/member/favorites">我的收藏</a></li>          
+                <li><a href="/member_addrs">收货地址</a></li>
+              </ul> -->
+            </li>
+            <%end%>
+              <li><%=link_to '关于我们', page_path('aboutus'), class:"menu-link #{@page_aboutus}"%></li>
+              <li class='hide-for-small-only'><%=link_to '联系我们', page_path('contactus'), class:"menu-link #{@page_contactus}"%></li>                
+                <%if signed_in?%>
+                <li class='hide-for-small-only'><%=link_to '退出登录',logout_path,  class:"menu-link #{@session_active}"%></li>              
+                <%else%>
+                <li class='hide-for-small-only'><%=link_to '注册/登录',login_path,  class:"menu-link #{@session_active}"%></li>
+                <%end%>
+            </ul>
+            </div>
+            <%if signed_in?%>
+            <div class='top-bar-right hide-for-small-only' style='margin:20px 20px'>
+               您好，<%=@user.name%>
+            </div>
+            <%end%>
+            <div class="top-bar-right" style ='display:none'>
+            <ul class="menu">
+            <li><input type="search" placeholder="Search"></li>
+            <li><button type="button" class="button">Search</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="row columns small-12">
+      <%= render 'layouts/flash_messages'%>
+      <%= yield %>
+    </div>
+    <%= render "layouts/footer" %>
+
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <link rel="stylesheet" media="screen" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<section id="products" class="pricing">
+    <div class="container">
+             <div class="center">
+                <h2>提货专区</h2>
+            </div>
+		<div class="pagination top">
+			<%=will_paginate @goods,:container=>false if @goods%>
+		</div>
+                    
+		<div id="pricing-table" class="row">
+            <%@goods.each do |goods|%>
+              	<div class="columns columns small-12 col-lg-3 plan portfolio-item category<%=goods.cat.cat_id%>">
+
+                    	<div class="item-inner" >
+                    	<!-- <div class="col-sm-4"> -->
+                        
+                        <div class="plan-price1"><%=goods.name%></div>
+                       <div class="product-pic">
+                            <%=link_to "/products/#{goods.bn}?coupon_id=#{@coupon_id}", :target=>"_blank" do %>
+                                <%=image_tag goods.list_default_pic,:alt=>goods.name%>
+                            <%end%>
+                        </div>
+                        <div class="plan-name">零售价： ¥<%=goods.price%></div>  
+                        <div>市场价： ¥<span style="text-decoration:line-through;"><%=goods.mktprice%></span></div>      
+		                
+		            </div>
+		        </div>
+            <%end%>
+        </div> 
+
+		<div class="pagination">
+			<%=will_paginate @goods,:container=>false if @goods%>
+		</div>
+	</div>
+</section>
+            
+                
+   
+
+
+

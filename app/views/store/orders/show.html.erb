@@ -1,0 +1,44 @@
+<% provide :title, '昌麒生态园-订单支付' %>
+<div class="row">
+  <div class="medium-6 large-4 columns">
+    <div class="callout secondary">
+      <%=form_for :card,:url=>pay_cards_path do |f|%>
+      <div class="row">
+        
+        <div class="small-12 columns">
+          <label><%=link_to "订单详情",detail_order_path(@order),:target=>"_blank",class:'button hollow expanded'%>
+          </label>
+        </div>
+         <div class="small-12 columns">
+          <label>订单状态：
+            <%=f.text_field :order_status_text,readonly:'true',value:@order.order_status_text%>
+          </label>
+        </div>
+        <div class="small-12 columns">
+          <label>订单编号
+            <%=f.text_field :order_id,readonly:'true',:required=>"required",value:@order.order_id%>
+          </label>
+        </div>
+        <div class="small-12 columns">
+          <label>订单金额
+            <%=f.text_field :amount,readonly:'true',:required=>"required",value:@order.final_amount%>
+          </label>
+        </div>
+        <div class="small-12 columns">
+          <label>会员卡号
+            <%=f.text_field :card_id,readonly:'true',:required=>"required",value:@user.card_num%>
+          </label>
+        </div>
+        <%if @order.pay_status == '0' && @order.status == 'active' && @order.payment != 'offline'%>
+        <div class="small-12 columns">
+          <label>支付密码
+            <%=f.password_field :password,placeholder:'密码',:required=>"required"%>
+          </label>
+          <%=f.submit "提 交",:class=>"button expanded"%>
+        </div>
+        <%end%>
+      </div>
+      <%end%>
+    </div>
+  </div>
+</div>

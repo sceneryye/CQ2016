@@ -1,0 +1,41 @@
+<% provide :title, '昌麒生态园-会员卡消费记录' %>
+<%=render partial: 'breadcrembs' , locals:{current:'会员卡交易记录'}%>
+<!-- <%= form_for :tradings, data: {abide: ''} do|f| %>
+    <%#= render 'layouts/form_errors', object: @tradings%>
+      <table class="table">
+        <thead>
+          <tr>
+            <th> <%#= f.label :start_time %>
+              <%= f.text_field :start_time, :value => '', required: true,:class=>"fdatepicker",:id=>"dpd2",placeholder:'开始时间'%>
+            </th>
+            <th><%#= f.label :end_time %>
+             <%= f.text_field :end_time, :value =>'',  required: true,:class=>"fdatepicker",:id=>"dpd1",placeholder:'结束时间'%>
+           </th>
+         </tr>
+       </thead>
+     </table>
+      <%=f.submit '查询', class: 'button expanded'%>
+<%end%> -->
+
+
+<table class="table table-striped" id="trading_list">
+  <tr>
+    <th>流水号</th>
+    <th>订单号</th>
+    <th>消费时间</th>
+    <th>消费金额</th>
+  </tr>
+
+  <%@tradings.each  do |trading|%>
+      <tr>
+         <td><%=trading.id%></td>
+        <td><%=trading.order_id%></td>
+        <td><%=l trading.created_at%></td>
+        <td>¥<%=trading.amount%></td>   
+      </tr>
+  <%end%>
+  <%if @tradings.blank?%>
+  <tr><td colspan='4'>暂无交易记录</td></tr>
+  <%end%>
+
+</table>

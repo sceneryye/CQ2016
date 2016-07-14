@@ -1,0 +1,95 @@
+
+    <h4>还没有激活您的会员卡，请按以下提示操作，激活您的会员卡 </h4>   
+    <h4>第一步：请填写会员信息</h4>
+
+        <div class="row">
+            <div class="columns small-12 medium-6">
+                <% if @user.errors.any? %> 
+                <div id="error_explanation" style="color:red">
+                    <ul> 
+                    <% @user.errors.full_messages.each do |msg| %> 
+                        <li><%= msg %></li> 
+                    <% end %> 
+                    </ul> 
+                </div> 
+                <% end %>
+            </div>   
+        </div>              
+ 
+        <%=form_for @user, :url=>member_path,:method=>:put,:html=>{ :role=>"form",data: {type: "script"}} do |f|%>   
+                               
+            <div class="row">
+                <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.text_field :name,:placeholder=>"*姓名",:required=>"required"%>
+                    </div>
+                    <div class="help-block" rel="user_name"></div>
+                </div>                           
+            </div> 
+            <div class="row">
+                 <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.text_field :id_card_number,:placeholder=>"*身份证号",:required=>"required"%>
+                    </div>
+                    <div class="help-block" rel="user_id_card_number"></div>
+                </div><!-- 
+                <div class="col-sm-1">
+                    <div class="help-block">*</div>
+                </div> -->
+            </div>
+            <div class="row">
+                 <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.text_field :mobile,:placeholder=>"*手机",:required=>"required"%>
+                    </div>
+                    <div class="help-block" rel="user_mobile"></div>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="columns small-4 form-group area"><%=f.hidden_field :area%>
+                    <%=f.select :province,Region.provinces.collect{|p| [p.local_name,p.region_id] },{:include_blank=>"*请选择省" },{ :onchange=>"selectProvince(this,'#city','#district');",:id=>"province",:class=>"form-control" }%>
+                </div>
+                <div class="columns small-4 form-group area">
+                  
+                        <%=f.select :city, {}, { :include_blank=>"*请选择市" }, { :onchange=>"selectCity(this,'#district');",:id=>"city",:class=>"form-control" }%>
+                </div>
+                <div class="columns small-4 form-group area">
+                
+                        <%=f.select :district, {}, { :include_blank=>"*请选择区/县" }, { :onchange=>"selectDistrict(this);",:id=>"district",:class=>"form-control" }%>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.text_field :addr,:placeholder=>"*通信地址",:required=>"required",:id=>"addr"%>
+                    </div>
+                    <div class="help-block" rel="user_addr"></div>
+                </div>
+            </div>
+           <!--                  
+            <div class="row">
+                <div class="columns small-3">
+                        <label>性别:</label>
+                </div>
+                <div class="columns small-9">
+                            <%#=f.radio_button :sex, 1%>
+                            <label for="user_sex_1" class="radio-label" style="margin-right:10px;">男</label>
+                            <%#=f.radio_button :sex, 0%>
+                            <label for="user_sex_0" class="radio-label">女</label>
+                </div>
+                <div class="help-block" rel="user_sex"></div>
+            </div>          
+         -->
+           
+             <div class="row">
+                <div class="columns small-12">  
+                    <div class="help-block" style="color:red">*打星号的为必填项*</div>                                 
+                    <div class="expanded button-group">
+                        <%=link_to '暂不激活', root_path, class:'button hollow alert expanded'%>
+                         <%=f.submit "下一步",:class=>"button alert expanded"%>  
+                    </div>
+                </div>
+            </div>
+        <%end%>              
+    </div><!--/.columns small-12-->
+</div>

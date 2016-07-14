@@ -1,0 +1,55 @@
+<% provide :title, '昌麒生态园-提现明细' %>
+<%=render partial: 'breadcrembs' , locals:{current:'提现明细'}%>
+<!-- <%= form_for :rebates_log, data: {abide: ''} do|f| %>
+    <%#= render 'layouts/form_errors', object: @rebates%>
+      <table class="table">
+        <thead>
+          <tr>
+            <th> <%#= f.label :start_time %>
+              <%= f.text_field :start_time, :value => '', required: true,:class=>"fdatepicker",:id=>"dpd2",placeholder:'开始时间'%>
+            </th>
+            <th><%#= f.label :end_time %>
+             <%= f.text_field :end_time, :value =>'',  required: true,:class=>"fdatepicker",:id=>"dpd1",placeholder:'结束时间'%>
+           </th>
+         </tr>
+       </thead>
+     </table>
+      <%=f.submit '查询', class: 'button expanded'%>
+<%end%> -->
+
+<div class='button-group'>
+  <%=link_to '未提现', rebates_cards_path(status:0),class:"button hollow #{@no}"%>
+  <%=link_to '已提现', rebates_cards_path(status:1),class:"button hollow #{@yes}"%>
+  <%if @status == 0 && @rebates.present?%>
+    <%=link_to '申请提现', apply_withdrawal_cards_path ,class:'button expaned'%>
+  <%end%>
+</div>
+<table class="table hover stack">
+  <thead>
+  <tr>
+  <%if @user.member_card.card.card_type=='A'%>
+    <th>卡号</th>
+  <%end%>
+    <th>交易号</th>
+    <th>交易时间</th>
+    <th>提现金额</th>
+    <th>提现比例</th>
+  </tr>
+  </thead>
+  <tbody>
+  <%@rebates.each  do |rebate|%>
+      <tr>
+        <%if @user.member_card.card.card_type=='A'%>
+        <td><span class='show-for-small-only'>会员卡号：</span><i class="fa fa-credit-card"></i><%=rebate.card_trading.card_no if rebate.card_trading%></td>
+        <%end%>
+        <td><span class='show-for-small-only'>交易流水：</span><i class="fa fa-opencart"></i><%=rebate.card_trading.id if rebate.card_trading%></td>
+        <td><span class='show-for-small-only'>交易时间：</span><i class="fa fa-clock-o"></i><%=l rebate.created_at%></td>
+        <td><span class='show-for-small-only'>提现金额：</span>¥<%=rebate.amount%></td>
+        <td><span class='show-for-small-only'>提现比例：</span><%=rebate.rate*100%>%</td>      
+      </tr>
+  <%end if @rebates%>
+  <%if @rebates.blank?%>
+  <tr><td colspan='4'>暂无提现记录</td></tr>
+  <%end%>
+  </tbody>
+</table>

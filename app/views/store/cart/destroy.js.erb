@@ -1,0 +1,7 @@
+$("#line_<%=params[:id]%>").remove();
+
+$("#cart .total").html('<%=raw "¥#{@cart_total}"%>');
+
+var _pDoc =  window.document;
+$(_pDoc).find("#cart_link .cart-number").text('(<%=@cart_total_quantity%>)');
+$(_pDoc).find("#menu_cart .number").text('(<%=@cart_total_quantity%>)');

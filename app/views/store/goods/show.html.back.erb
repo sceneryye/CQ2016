@@ -1,0 +1,122 @@
+<section class="pricing">
+        <div class="container">
+            <div class="box first">
+                <div class="center">
+                    <h3 "color:#000000"><%=@good.name %></h3>
+                </div>
+                <div class="gap"></div>
+                <div id="pricing-table" class="row">
+                    <div class="col-sm-8">
+                        <ul class="plan">
+                            <li><img src="<%=@good.big_pic %>" style="width:100%"></li>
+                        </ul>
+                    </div>
+                    <%=form_for :product,:url=>add_cart_index_path do |f|%>
+				    <%=f.hidden_field :goods_id,:value=>@good.goods_id%>
+				    <%=f.hidden_field :type_id,:value=>@good.type_id%>   
+                    <%=f.hidden_field :coupon_id,:value=>@coupon_id%>                
+                    <div class="col-sm-4">
+                        <ul class="plan featured">
+                            <li class="plan-price1 <%=@current_lv_3%>"> 会员价：¥<span id="product_price"><%=(@good.price).round if (@good.price).round%></span></li>
+                            <li class="<%=@current_lv_1%>">市场价：¥<%=@good.default_product.price if @good.default_product%></span></li>                                          
+                            
+                            <li><%=render :partial=>"store/goods/product/new_spec",:locals=>{ :good=>@good }%></li>
+                            <li><%=raw @good.desc%></li> 
+                            <li>规格:<%=raw @good.spec_info%></li>
+                            <li class="plan-action"><%=f.submit "加入购物车",:class=>"button button-success expanded"%></li>
+                            <li style="display:none"><%if signed_in?%>
+						      <%=link_to "已收藏",unfav_good_path(@good,:rel=>"good_#{@good.goods_id}"),:class=>"add_to_favorites",:remote=>true,:method=>:put,:confirm=>"是否取消收藏?" if @good.favorited_by?(@user)%>
+						      <%=link_to "加入我的收藏夹",fav_good_path(@good,:rel=>"good_#{@good.goods_id}"),:class=>"add_to_favorites",:remote=>true,:method=>:put unless @good.favorited_by?(@user)%>
+						      <%else%>
+						        <a href="javascript:void(0);" class="add_to_favorites login">加入我的收藏夹</a>
+						      <%end%>
+						    </li>
+                        </ul>
+                    </div>
+                    <%end%>
+                    
+                </div> 
+            </div> 
+        </div>
+    </section><!--/#pricing-->
+
+     <section id="about-us">
+        <div class="container">
+            <div class="box">
+                <div class="center">
+                    <p class="lead">
+                        商品详情<br>
+                        <div class="goods-detail">
+                            <p style="color:#006000;font-weight:bold">注：由于配送原因，每日14:00前下单，次日可以送达；14:00后下单，隔日可以送达。请知悉。</p>
+                            <%=raw @good.intro%>
+                        </div>
+                    </p>
+                </div>
+                <div class="gap"></div>
+               
+            </div><!--/.box-->
+        </div><!--/.container-->
+    </section><!--/#about-us-->
+
+<section id="contact">
+  <div class="container">
+      <div class="box last">
+        <div class="row">
+          <div class="columns small-12">
+          <%if @good.has_cols? %>
+            <div id="new_look">
+            	<%= render "new_look2"%>
+            	<%= render "reco_new_look" if @good.reco_collocation_goods.count > 0%>
+            </div>
+            <%else%>
+            <%= render "reco_goods" %>
+            <%end%>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+<script>  
+// TBD  异步加载商品详情
+    // var floor_id = 1;
+    // var floors_num =3;
+    // //定义滚动函数
+    // function onScroll(event) {
+    //     //是否到底部（这里是判断离底部还有100px开始载入数据）.
+    //     var closeToBottom = ($(window).scrollTop() + $(window).height() > $(document).height() - 100);
+    //     if(closeToBottom && floor_id<=floors_num) {
+    //         console.log(floor_id);
+            
+    //         //这里就是AJAX载入的数据
+    //         var floor_url ="/goods/detail/"+goods_id;
+    //         $.ajax({url:floor_url, dataType:"html", success:function(html){
+    //                  //把新数据追加到对象中
+    //                  $('#waterfall').append(html);
+    //                 if(floor_id<floors_num){
+    //                     $('#waterfall').append($('#floor_temp'));
+    //                 }
+    //                 else{
+    //                      $('#floor_temp').remove();
+    //                 }
+                    
+    //             }
+    //         });
+    //         floor_id = floor_id +1;
+    //     }
+    // };
+
+    // $(document).ready(new function() {
+    //         //绑定scroll事件.
+    //         $(document).bind('scroll', onScroll);
+    //         //第一次布局.
+    //         // handler = $('#waterfall li');
+    //         // handler.wookmark(options);
+    // });   
+</script>
+
+
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById("preloader").style.display = 'none';
+  }
+</script>

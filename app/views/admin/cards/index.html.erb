@@ -1,0 +1,268 @@
+<div class='row'>
+  <div class='columns medium-2'>
+    <div class="button-group">
+        <%=link_to "至尊卡",admin_cards_path(card_type:'A'),:class=>"button #{@ta}"%>
+        <%=link_to "亲情卡",admin_cards_path(card_type:'B'),:class=>"button #{@tb}"%>
+    </div>
+  </div>
+  <div class='columns medium-3'>
+    <div class="button-group">
+        <%=link_to "未使用",admin_cards_path(status: '未使用', card_type:params[:card_type]),:class=>"button #{@s0}"%>
+        <%=link_to "未激活",admin_cards_path(status: '未激活', card_type:params[:card_type]),:class=>"button #{@s1}"%>
+        <%=link_to "已使用",admin_cards_path(status: '已使用', card_type:params[:card_type]),:class=>"button #{@s2}"%>
+        <%=link_to "冻结",admin_cards_path(status: '冻结', card_type:params[:card_type]),:class=>"button #{@s3}"%>
+        <%=link_to "挂失",admin_cards_path(status: '挂失', card_type:params[:card_type]),:class=>"button #{@s4}"%>
+    </div>
+  </div>
+
+  <div class='columns medium-3'>
+    <%=form_for :search,:url=>admin_cards_path,:html=>{:class=>"form-search"},:method=>:get do |f|%>
+      <div class="input-group">
+        <%=f.text_field :key,:placeholder=>"卡号",:value=>params[:search]&&params[:search][:key],class:'input-group-field'%>
+        <div class="input-group-button">
+        <%=f.submit "搜索",:class=>"button"%>
+        </div>
+      </div>
+    <%end%>
+  </div>
+
+  <div class="medium-1 columns">  
+      <div class="button-group">
+        <a class="button dropdown-toggle" data-toggle="dropdown" href="#">
+          标签
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <%=link_to "javascript:void(0);",:'data-url'=>admin_labels_path,:class=>"dialog" do %>
+              添加标签
+            <%end%>
+          </li>
+          <li class="divider"></li>
+          <%@labels.each do |label|%>
+          <li>
+            <%=link_to label.name,"javascript:void(0);",:'data-url'=>tag_admin_cards_path(:label=>label.id),:class=>"tagd"%>
+          </li>
+          <%end%>
+        </ul>
+      </div>
+  </div>
+</div>
+<div class="row" style="display:none">
+  <div class='columns medium-3'>
+    <%=form_for :card,:url=>import_admin_cards_path,:html => {:multipart => true} ,:method=>:post do |f|%>
+    <div class="input-group">
+     <%=form_for :card,:url=>import_admin_cards_path,:html => {:multipart => true} ,:method=>:post do |f|%>
+        <%= file_field :card, :file, :id=>'csvfile',:accept => "application/msexcel",:class=>"batch" %>
+        <%= f.submit 'EXCEL批量导入', :class => "button" %>
+     <%end%>
+    </div>
+    <%end%>  
+  </div>
+  <%if flash[:notice] && flash[:notice].is_a?(Hash)%>
+  <div id="import_log_list" class="alert columns medium-2">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <ul>
+      <%flash[:notice].each do |row_no,msg|%>
+          <% if row_no.to_i < 2+5 %>
+            <li>行号[<%=row_no%>] : <%=msg%></li>
+          <%else%>
+            <li class="hide">行号[<%=row_no%>] : <%=msg%></li>
+          <%end%>
+      <%end%>
+    </ul>
+    <%=link_to "显示全部","#",:id=>"show_all"  if flash[:notice].size > 5%>
+  </div>
+  <%end%>
+  <div class="medium-2 columns">
+    <%=form_for :card,:url=>export_admin_cards_path,:method=>:post do |f|%>
+    <!--  <%= f.hidden_field :select_all,:class=>"sel_operation", :value => 0 %>-->  <%if current_admin.has_right_of("card","export") %>
+         <%=f.submit "导出",:class=>"export_button button tiny" %>
+         <%end%>
+       
+    <%end%> 
+  </div> 
+</div>
+
+<div class='row sel_banner columns small-12' style="display:none">
+  您当前选定了<a class='sel_nums'>0</a>条记录！  <a href='#' class='cancel_all'>取消选定</a> <a href='#' class='sel_all'>选定全部</a>
+  <p class="total_card hidden"><%=@cards_total%></p>
+</div>
+
+<table  id="cards_list">
+  <tr>
+    <thead>
+    <th>
+      <%=check_box_tag "select_all","all"%>
+      <label for="select_all" class="inline">全选</label>  
+    </th>
+    <th>卡号</th>
+    <th>类型</th>
+    <th>卡状态</th>
+    <!-- <th>标签</th> -->
+    <%#if params[:status]=='已使用'%>
+      <th>激活时间</th>
+      <th>姓名&手机</th>
+      <th>绑定银行</th>
+    <%#end%>
+    <th>操作</th>
+    </thead>
+  </tr>
+  <% @cards.each do |card| %>
+  <tr id="card_<%=card.id%>">
+    <tbody>
+    <td><%=check_box_tag "selected_cards[]", card.id,false,:class =>'operate_ids'%><%=card.id%></td>
+    
+    <!-- <td >
+        <%=link_to admin_card_path(card),:class=>"editable",:remote=>"true" do%>
+            <%=image_tag "finder_drop_arrow.gif"%>
+        <%end%> 
+    </td> -->
+
+    <td><%=link_to  card.no,admin_card_path(card) %>
+    <% if card.card_type=='B'%>
+    (<%= card.parent_card.no if card.parent_id%>)
+    <%end%>
+
+    </td>    
+    <td><%=card.type_text%></td>
+    <!--   <td>
+      <%card.labels.each do |label|%>
+        <span class="tag" label="<%=label.id%>">
+          <%=label.name%><%=link_to "x",untag_admin_card_path(card,:label=>label.id),:remote=>true,:method=>:put,:class=>"delete"%>
+        </span>
+      <%end%>
+    </td> -->
+
+    <td><%= card.status %></td>  
+    <%if card.member_card%>
+      <td><%=card.member_card.created_at.strftime("%Y-%m-%d %H:%S:%M")%></td>  
+      <td><%=card.member_card.user_name%><br><%=card.member_card.user_tel%></td>
+      <td><%="#{card.member_card.bank_name}(#{card.member_card.bank_branch})"%><br><%= card.member_card.bank_card_no%></td>
+    <%else%>
+    <td colspan="3">&nbsp</td>
+    <%end%>
+    <td>
+      <% if card.status=='未使用'%>
+        <%=link_to "领用",active_admin_card_path(card), class:'hollow button tiny'%>
+      <%else%>
+        <%if card.card_type=='B'%>
+            <%=link_to "设置母卡",edit_admin_card_path(card), class:'hollow button tiny'%>
+        <%else%>
+            <%=link_to "显示子卡",admin_cards_path(parent_id: card), class:'hollow button tiny'%>
+        <%end%>
+
+        <%if card.status=='冻结' %>  
+          <a class="hollow button tiny" data-toggle="unfreeze-<%=card.id%>-dropdown">解冻</a>
+          <div class="dropdown-pane" id="unfreeze-<%=card.id%>-dropdown" data-dropdown data-auto-focus="true">
+             <%=form_tag card_status_admin_card_path(card) do %>
+              <input type='hidden' name='status' value='unfreeze'>
+              <div class="row">
+                <div class="medium-6 columns">
+                  <label>
+                    <input name='reason'type="text" placeholder="解冻说明">
+                  </label>
+                </div>
+                <div class="medium-6 columns">
+                   <%=submit_tag '确定', :class => "button" %>
+                </div>
+              </div>
+            <%end%>
+          </div>   
+        <%else%>
+          <a class="hollow button tiny" data-toggle="freeze-<%=card.id%>-dropdown">冻结</a>
+          <div class="dropdown-pane" id="freeze-<%=card.id%>-dropdown" data-dropdown data-auto-focus="true">
+            <%=form_tag card_status_admin_card_path(card) do %>
+              <input type='hidden' name='status' value='freeze'>
+              <div class="row">
+                <div class="medium-6 columns">
+                  <label>
+                    <input name='reason'type="text" placeholder="冻结原因">
+                  </label>
+                </div>
+                <div class="medium-6 columns">
+                   <%=submit_tag '确定', :class => "button" %>
+                </div>
+              </div>
+            <%end%>
+          </div>
+        <%end%>
+
+        <%if card.status=='挂失'%>
+          <a class="hollow button tiny" data-toggle="cancel-loss-<%=card.id%>-dropdown">解挂</a>
+              <div class="dropdown-pane" id="cancel-loss-<%=card.id%>-dropdown" data-dropdown data-auto-focus="true">
+                <%=form_tag card_status_admin_card_path(card) do %>
+                  <input type='hidden' name='status' value='cancel_loss'>
+                  <div class="row">
+                    <div class="medium-6 columns">
+                      <label>
+                        <input name='reason'type="text" placeholder="解挂说明">
+                      </label>
+                    </div>
+                    <div class="medium-6 columns">
+                       <%=submit_tag '确定', :class => "button" %>
+                    </div>
+                  </div>
+                <%end%>
+              </div>   
+        <%else%>        
+          <a class="hollow button tiny" data-toggle="report-loss-<%=card.id%>-dropdown">挂失</a>
+              <div class="dropdown-pane" id="report-loss-<%=card.id%>-dropdown" data-dropdown data-auto-focus="true">
+                 <%=form_tag card_status_admin_card_path(card) do %>
+                  <input type='hidden' name='status' value='report_loss'>
+                  <div class="row">
+                    <div class="medium-6 columns">
+                      <label>
+                        <input name='reason'type="text" placeholder="挂失说明">
+                      </label>
+                    </div>
+                    <div class="medium-6 columns">
+                       <%=submit_tag '确定', :class => "button" %>
+                    </div>
+                  </div>
+                <%end%>
+              </div>   
+        <%end%>
+
+         <a class="hollow button tiny" data-toggle="topup-<%=card.id%>-dropdown">充值</a>
+          <div class="dropdown-pane" id="topup-<%=card.id%>-dropdown" data-dropdown data-auto-focus="true">
+             <%=form_tag topup_admin_card_path(card) do %>
+              <div class="row">
+                <div class="medium-6 columns">
+                  <label>
+                    <input name='amount'type="number" placeholder="充值金额">
+                  </label>
+                </div>
+                <div class="medium-6 columns">
+                   <%=submit_tag '确定', :class => "button" %>
+                </div>
+              </div>
+            <%end%>
+          </div>   
+        <%=link_to "重设密码",reset_password_admin_card_path(card), class:'hollow button tiny'%>
+      <%end%>
+      <%if current_admin.has_right_of("cards","logs")%>
+        <%=link_to "日志",logs_admin_card_path(card), class:'hollow button tiny'%>
+      <%end%>
+       <!--  <%=link_to "取消订单",cancel_order_admin_card_path(card),:method=>:put,:confirm=>"确定取消订单？" if card.sale_status && !card.pay_status && card.normal?%>
+
+        <%unless card.use_status%>
+          <%=link_to "修改",edit_admin_card_path(card)%>
+          <%=link_to "修改支付信息",edit_pay_admin_card_path(card) if !card.member_card.nil?%>
+          <%=link_to "修改用卡人",edit_user_admin_card_path(card) if card.sale_status && card.card_type=="A" && card.status!="作废"&&card.status!="锁定"%>
+          <%=link_to "购卡",buy_admin_card_path(card)  if card.can_buy?%>
+          <%=link_to "使用",use_admin_card_path(card)  if card.can_use?%>
+        <%end%> -->
+      <%if  current_admin.has_right_of("cards","allinpay")%>
+        <%=link_to "通联",allinpay_admin_card_path(card), class:'hollow button tiny'%>
+      <%end%>
+    </td>
+  </tbody>
+  </tr>
+  <% end %>
+</table>
+<div class="row columns small-12">
+  <div class="pagination">
+  <%= will_paginate @cards,renderer: FoundationPagination::Rails%>
+  </div>
+</div>

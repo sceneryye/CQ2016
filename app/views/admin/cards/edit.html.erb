@@ -1,0 +1,50 @@
+<h5>修改会员卡信息</h5>
+<hr />
+<%= form_for @card,:url => admin_card_path(@card), :html => {:class => "form-horizontal well edit_form"} do |f| %>
+  <fieldset>
+    <div class="control-group">
+      <%= f.label :no, "卡号 :", :class => "control-label" %>
+      <div class="controls">
+        <span class="plain-text "><%=@card.no%></span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :value, "余额:", :class => "control-label" %>
+     <div class="controls">
+        <span class="plain-text">¥<%=@card.value%></span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :card_type, "类型 :", :class => "control-label" %>
+      <div class="controls">
+        <span class="plain-text"><%=@card.type_text%></span>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :status, "状态 :", :class => "control-label" %>
+      <div class="controls">
+        <span class="plain-text"><%=@card.status%></span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :status, "母卡 :", :class => "control-label" %>
+      <div class="controls">
+       
+          <%= f.select :parent_id, @parents.collect {|b| [b.no,b.id]},{:include_blank=>"请选择母卡"}%>
+       
+      </div>
+    </div>
+
+
+    <div class="control-group">
+      <div class="controls">
+        <%= f.submit '确定', :class => "button" %>&nbsp;&nbsp;&nbsp;&nbsp;
+        <%= link_to '返回', admin_cards_path %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

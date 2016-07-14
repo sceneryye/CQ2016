@@ -1,0 +1,58 @@
+<%
+  create_or_update_url = admin_inventory_logs_path  if action_name == "new"
+  create_or_update_url = admin_inventory_log_path(@inventory_log) if action_name == "edit"
+%>
+<%= form_for @inventory_log,:url=>create_or_update_url,:html => {:class => "form-horizontal"} do |f| %>
+  <fieldset>
+    <% if @inventory_log.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@inventory_log.errors.count, "error") %> prohibited this page from being saved:</h2>
+
+        <ul>
+        <% @inventory_log.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>   
+      <%=f.hidden_field :goods_id, value:@goods.goods_id%>
+    <div class="control-group">
+      <%= f.label :product_id, "产品型号", :class => "control-label" %>
+      <div class="controls">
+        <%= f.select :product_id, @products.collect {|t| [ t.name, t.id ] }%>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :location, "门店", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :location, :placeholder => "门店" %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :order_id, "订单号", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :order_id, :placeholder => "订单号" %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :quantity, "数量", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :quantity, :placeholder => "数量" %>
+      </div>
+    </div>    
+     <div class="columns small-4">
+       <%= f.label :in_out, "出库/入库", :class => "control-label" %>
+      <div class="controls">
+        <label class="radio inline"><%= f.radio_button :in_out,-1%>出库</label>
+        <label class="radio inline"><%= f.radio_button :in_out,1%>入库</label>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <div class="controls">
+        <%= f.submit '确定', :class => "button" %>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '返回', admin_inventory_logs_path %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

@@ -1,0 +1,26 @@
+<% provide :title, '昌麒生态园-提现管理' %>
+<%=render partial: 'breadcrembs' , locals:{current:'提现管理'}%>
+
+  <div class='row columns align-center button expanded hollow alert' >
+    <h3>累积提现</h3>
+    <h1><%=@withdrawal_total%></h1>
+  </div>
+  <div class='row'>
+    <div class='columns small-6'>
+      <%=link_to withdrawals_cards_path, class:'button expanded hollow alert' do%>
+      <h2>本周提现</h2>
+      <h1>+<%=@withdrawal_this_week%></h1>
+      <%end%>
+    </div>
+     <div class='columns small-6'>
+      <%=link_to rebates_cards_path(status: 0) , class:'button expanded hollow alert' do%>
+      <h2>当前可用提现<h2>
+      <h1>+<%=@rebate_availabe%></h1>
+      <%end%>
+    </div>
+  </div>
+
+  <div class='row columns'>
+    <%=link_to "查看明细",rebates_cards_path ,class:'button float-left'%>
+    <%=link_to '申请提现', apply_withdrawal_cards_path ,class:'button  float-right'%>
+  </div>

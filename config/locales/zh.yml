@@ -1,0 +1,532 @@
+zh:
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%b%d日"
+      long: "%Y年%b月%d日"
+    day_names:
+      - 星期日
+      - 星期一
+      - 星期二
+      - 星期三
+      - 星期四
+      - 星期五
+      - 星期六
+    abbr_day_names:
+      - 日
+      - 一
+      - 二
+      - 三
+      - 四
+      - 五
+      - 六
+    month_names:
+      - ~
+      - 一月
+      - 二月
+      - 三月
+      - 四月
+      - 五月
+      - 六月
+      - 七月
+      - 八月
+      - 九月
+      - 十月
+      - 十一月
+      - 十二月
+    abbr_month_names:
+      - ~
+      - 1月
+      - 2月
+      - 3月
+      - 4月
+      - 5月
+      - 6月
+      - 7月
+      - 8月
+      - 9月
+      - 10月
+      - 11月
+      - 12月
+    order:
+      - :year
+      - :month
+      - :day
+
+  time:
+    formats:
+      default: "%Y年%b%d日 %H:%M"  
+      short: "%b%d日 %H:%M"
+      long: "%Y年%b%d日 %H:%M:%S"
+      normal: "%Y年%b%d日"
+    am: "上午"
+    pm: "下午"
+  
+  datetime:
+    distance_in_words:
+      half_a_minute: "半分钟"
+      less_than_x_seconds:
+        one: "不到1秒"
+        other: "不到%{count}秒"
+      x_seconds:
+        one: "1秒"
+        other: "%{count}秒"
+      less_than_x_minutes:
+        one: "不到1分钟"
+        other: "不到%{count}分钟"
+      x_minutes:
+        one: "1分钟"
+        other: "%{count}分钟"
+      about_x_hours:
+        one: "大约1小时"
+        other: "大约%{count}小时"
+      x_days:
+        one: "1天"
+        other: "%{count}天"
+      about_x_months:
+        one: "大约1个月"
+        other: "大约%{count}个月"
+      x_months:
+        one: "1个月"
+        other: "%{count}个月"
+      about_x_years:
+        one: "大约1年"
+        other: "大约%{count}年"
+      over_x_years:
+        one: "1年多"
+        other: "%{count}年多"
+      almost_x_years:
+        one:   "接近1年"
+        other: "接近%{count}年"
+    prompts:
+      year:   "年"
+      month:  "月"
+      day:    "日"
+      hour:   "时"
+      minute: "分"
+      second: "秒"
+
+  number:
+    format:
+      separator: "."
+      delimiter: ","
+      precision: 3
+      significant: false
+      strip_insignificant_zeros: false
+    currency:
+      format:
+        format: "%u %n"
+        unit: "CN¥"
+        separator: "."
+        delimiter: ","
+        precision: 2
+        significant: false
+        strip_insignificant_zeros: false
+    percentage:
+      format:
+        delimiter: ""
+    precision:
+      format:
+        delimiter: ""
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+        significant: false
+        strip_insignificant_zeros: false
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+      decimal_units:
+        format: "%n %u"
+        units:
+          # 10^-21 zepto, 10^-24 yocto
+          atto: "渺"  # 10^-18
+          femto: "飞" # 10^-15 毫微微
+          pico: "漠"  # 10^-12 微微
+          nano: "奈"  # 10^-9 毫微
+          micro: "微" # 10^-6
+          mili: "毫"  # 10^-3 milli
+          centi: "厘" # 10^-2
+          deci: "分"  # 10^-1
+          unit: ""
+          ten:
+            one: "十"
+            other: "十"  # 10^1
+          hundred: "百"  # 10^2
+          thousand: "千" # 10^3 kilo
+          million: "百万" # 10^6 mega
+          billion: "十亿" # 10^9 giga
+          trillion: "兆" # 10^12 tera
+          quadrillion: "千兆" # 10^15 peta
+          # 10^18 exa, 10^21 zetta, 10^24 yotta
+
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " 和 "
+      last_word_connector: ", 和 "
+    select:
+      prompt: "请选择"
+
+  activerecord:
+    errors:
+      template: # ~ 2.3.5 backward compatible
+        header:
+          one: "有 1 个错误发生导致「%{model}」无法被保存。"
+          other: "有 %{count} 个错误发生导致「%{model}」无法被保存。"
+        body: "如下字段出现错误："
+      full_messages:
+        format: "%{attribute} %{message}"
+      messages:
+        inclusion: "不包含于列表中"
+        exclusion: "是保留关键字"
+        invalid: "是无效的"
+        confirmation: "与确认值不匹配"
+        accepted: "必须是可被接受的"
+        empty: "不能留空"
+        blank: "不能为空字符"
+        too_long: "过长（最长为 %{count} 个字符）"
+        too_short: "过短（最短为 %{count} 个字符）"
+        wrong_length: "长度非法（必须为 %{count} 个字符）"
+        not_a_number: "不是数字"
+        not_an_integer: "必须是整数"
+        greater_than: "必须大于 %{count}"
+        greater_than_or_equal_to: "必须大于或等于 %{count}"
+        equal_to: "必须等于 %{count}"
+        less_than: "必须小于 %{count}"
+        less_than_or_equal_to: "必须小于或等于 %{count}"
+        odd: "必须为单数"
+        even: "必须为双数"
+        taken: "已经被使用"
+        record_invalid: "校验失败: %{errors}"
+        duration: "开始时间必须早于结束时间"
+    models:
+      user: 会员
+      forum: 心愿清单
+      topic: 话题
+      event:  投票
+      participants: 报名
+      groupbuy: 团购
+      my_groupbuys: 我的团购
+      comment: 评论
+      tag: 标签
+      search: 搜索
+    attributes:
+      user:
+        username: 账号
+        name: 姓名
+        sex: 性别
+        email: 邮件
+        mobile: 手机
+        password: 密码
+        password_confirmation: 确认密码
+        avatar: 头像
+        profession: 职业
+        location: 地点
+      event:
+        id: 活动号
+        title:  活动名称
+        start_time: 开始时间
+        end_time: 结束时间
+        event_type: 活动类型
+        pic_url:  活动图片
+        limited_people: 人数限制
+        name: 联系人
+        mobile: 联系电话
+        body: 活动详情
+        price: 非活动价
+      groupbuy:
+        id: 团购号
+        title:  活动名称
+        start_time: 开始时间
+        end_time: 结束时间
+        event_type: 活动类型
+        pic_url:  活动图片
+        goods_unit: 团购商品单位
+        goods_minimal: 最低成团数
+        inventory: 库存
+        name: 联系人
+        mobile: 联系电话
+        body: 活动详情
+        price: 非团购价
+        groupbuy_pric: 团购价
+        market_price: 市场价
+      participant:
+        amount: 数量
+        name: 收货人
+        mobile: 联系电话
+        address:  收货地址
+        remark: 备注
+      forum:
+        name: 标题
+      topic:
+        title: 标题
+        body: 内容
+      comment:
+        body: 评论
+
+  activemodel:
+    errors:
+      template:
+        header:
+          one: "有 1 个错误发生导致「%{model}」无法被保存。"
+          other: "有 %{count} 个错误发生导致「%{model}」无法被保存。"
+        body: "如下字段出现错误："
+
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      inclusion: "不包含于列表中"
+      exclusion: "是保留关键字"
+      invalid: "是无效的"
+      confirmation: "与确认值不匹配"
+      accepted: "必须是可被接受的"
+      empty: "不能留空"
+      blank: "不能为空字符"
+      too_long: "过长（最长为 %{count} 个字符）"
+      too_short: "过短（最短为 %{count} 个字符）"
+      wrong_length: "长度非法（必须为 %{count} 个字符）"
+      not_a_number: "不是数字"
+      not_an_integer: "必须是整数"
+      greater_than: "必须大于 %{count}"
+      greater_than_or_equal_to: "必须大于或等于 %{count}"
+      equal_to: "必须等于 %{count}"
+      less_than: "必须小于 %{count}"
+      less_than_or_equal_to: "必须小于或等于 %{count}"
+      odd: "必须为单数"
+      even: "必须为双数"
+
+  helpers:
+    select:
+      prompt: "请选择"
+    submit:
+      create: "提交"
+      update: "提交"
+      submit: "提交"
+
+  event: 投票
+  topic: 话题
+  by: 创建人
+  price: 价格
+  search: 搜索
+  comment: 评论
+  site_name: GroupMall
+  before: 前。
+  more: 更多
+  new_comment: 添加评论
+  new_participant: 立即报名
+  title: 标题
+  goods_unit: 商品单位
+  please_choose_event_duration: 请输入活动时间
+  start_time: 开始时间
+  end_time: 结束时间
+  price:  正价
+  goods_minimal: 最少成团数量
+  new_forum:  新增心愿清单
+  new_groupbuy:  新增团购
+  new_event:  新增投票
+  edit_forum: 编辑心愿清单
+  new_topic:  新增心愿清单
+  edit_topic: 编辑心愿清单
+  pay: 立即支付
+  goings: 报名
+  rsvp: 报名
+  groupbuy_detail: 团购详情
+  event_detail: 投票详情
+  limited_people: 人数限制
+  comments: 评论
+  unpaid: 未付款
+  paid: 已付款
+  pic_url: 图片上传
+  body: 内容
+  waiting_confirm: 等待付款确认
+  shiped: 已发货
+  unshiped: 未发货
+  received: 已收货
+  groupbuy: 团购
+  share: 分享
+  edit_profile: 个人信息
+  maintain_addresses: 收货地址
+  maintain_logistics: 物流规则
+  interests: 我的关注
+  membership: 关于我们
+  name: 姓名
+  mobile: 手机
+  address: 地址
+  quantity: 数量
+  buy: 立即购买
+  buys: 团购
+  remark: 备注
+  group_management: 群组管理
+  welcome: 欢迎
+  inventory: 库存
+  weekday: 工作日
+  weekend: 周末
+  anyday: 不限日期
+  morning: 上午
+  afternoon: 下午
+  anytime: 不限时间
+  deliverytime: 送货时间
+  default_address: 默认地址
+  new_address: 新建地址
+  set_default: 设为默认
+  groupbuy_price: 活动价
+  market_price: 市场价
+  save: 省
+  amount: 数量
+  please_choose_groupbuy_duration: 请选择团购期间
+  home: 首页
+  count_down: 倒计时
+  groupbuy_end: 团购已结束,以正价购买
+  day: 天
+  people: 人
+  edit: 编辑
+  delete: 删除
+  logout: 退出
+  participants: 参与
+  participant: 参与
+  no_events: 暂无投票。
+  no_topics: 暂无话题。
+  no_groupbuys: 暂无团购。
+  should_be_int: 数量必须为正整数！
+  send_to: 送货至
+  tracking_number: 运单号
+  histroy: 记录
+  next_page: 下一页
+  pre_page: 上一页
+  event_end: 投票已结束
+  nomore: 已无更多评论
+  detail_address: 详细地址
+  coordinate: 坐标
+  event_address: 活动地址
+  new_groupbuy: 新增团购
+  new_event: 新增投票
+  new_topic: 新增话题
+  content: 内容
+  duration: 持续时间
+  day: 天
+  hour: 时
+  minute: 分
+  month: 月
+  second: 秒
+  year: 年
+  contact: 联系方式
+  total_price: 总价
+  contact_master: 联系帮主支付
+  free: 免费
+  remaining_time: 剩余时间
+  no_address: 暂无送货地址
+  enter_address: 请先填写您的地址
+  delete_insure: 确定删除？
+  sign_up_first: 请先注册
+  join_now: 立即参加
+  pay_success: 支付成功！
+  weight_kg: 净重(千克)
+  logistics: 物流规则
+  new_logistic: 新增物流规则
+  apply_success: 请点击下面的按钮以完成支付
+  consignee: 收货人
+  discount: 优惠
+  freightage: 邮费
+  area: 地区
+  detail: 详情
+  pay_online: 线上支付
+  pay_now: 立刻支付
+  pay_offline: 线下支付
+  must_large_than_minimal: 数量必须大于最低起订量
+  groupbuy_price: 团购价
+  share_page: 请点击右上角的分享按钮来分享本页面
+  must_integer: 数量必须为整数
+  unit_price: 单价
+  selling_price: 卖价
+  en_title: 英文标题
+  zh_title: 中文标题
+  en_body: 英文描述
+  zh_body: 中文描述
+  zh_content: 中文内容
+  en_content: 英文内容
+  avatar: 头像
+  nickname: 昵称
+  group: 群组
+  profession: 职业
+  male: 男
+  female: 女
+  unknown: 不详
+  sex: 性别
+  me: 我
+  my_orders: 我的订单
+  order_status: 订单状态
+  pay_status: 支付状态
+  ship_status: 发货状态
+  created_at: 创建时间
+  signin_signup: 登录 / 注册
+  forum: 心愿清单
+  forums: 心愿清单
+  logistic_ruler: 物流规则
+  deal_english_title: 团购英文标题
+  new_logistic_rule: 新建物流规则
+  edit_groupbuy: 编辑团购
+  settings: 设置
+  others: 其它
+  my_groupbuys: 我的团购
+  my_events: 我的投票
+  my_topics: 我的心愿清单
+  login: 登录
+  first_weight: 首重
+  additional_weight: 续重
+  contact_us: 联系我们
+  wechat: 微信
+  email: 邮箱
+  tel: 手机
+  contacts: 联系人
+  as_gift: 作为礼品赠送
+  choose_from_groupbuys: 从历史记录中选择
+  goods_size: 商品规格
+  goods_bbd: 商品保质期
+  products_store: 商品仓库
+  office_line: 办公室电话
+  work_time: 工作时间
+  workday: 周一到周五
+  my_forums: 我的心愿清单
+  ago: 之前
+  province: 省份
+  city: 城市
+  user_avatar: 头像
+  password: 密码
+  password_confirmation: 确认密码
+  about_groupmall: 关于GroupMall
+  submit: 提交
+  create_voting: 创建投票
+  create_new_item: 新建条目
+  voting: 投票
+  voting_result: 投票结果
+  create_vote_product: 新建投票成员
+  about_the_team: 关于团队
+  management_team: 管理团队
+  vote: 投票
+  voting_name: 名称
+  votings: 投票列表
+  delete_voting: 删除投票
+  my_wishlist: 我的心愿清单
+  vote_now: 立即投票!
+  confirm_delete: 确认删除？
+  published_wishlists: 公开的心愿清单
+  wishlist: 心愿清单
+  down_payment: 定金
+  publish: 发布
+  pay_for: 支付
+  upload: 上传
+  posted_by: 发布者
+  description: 描述
+  book_number: 预定人数
+  new_wishlist: 创建心愿清单
+  downpayment_number: 定金编号
+

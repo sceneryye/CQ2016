@@ -1,0 +1,24 @@
+<!--- 输入卡密登录//-->
+<div class="row">
+	<div class="medium-5 large-3 columns">
+		<div class="callout secondary">
+			<%=form_for :card,:url=>login_cards_path do |f|%>
+			<% @return_url = request.url.sub('?from=weixin_menu','').force_encoding('UTF-8')%>
+			<input type="hidden" name="return_url" value='<%=@return_url%>'%>
+			<div class="row">
+				<div class="small-12 columns">
+					<label>您的会员卡号
+						<%=f.text_field :card_id,readonly:'true',:required=>"required",value:@user.card_num%>
+					</label>
+				</div>
+				<div class="small-12 columns">
+					<label><!-- 请小心输入，输错三次当天会被锁定 -->
+						<%=f.password_field :password,placeholder:'密码',:required=>"required"%>
+					</label>
+					<%=f.submit "提 交",:class=>"button expanded"%>
+				</div>
+			</div>
+			<%end%>
+		</div>
+	</div>
+</div>

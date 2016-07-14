@@ -1,0 +1,48 @@
+<style>
+  .change_lange{
+      display: none;
+  }
+
+</style>
+<div class="am-panel am-panel-warning "style="margin: 0px;padding: 0px">
+  <div class="am-panel-hd"  style="text-align: center;padding: 10px"><%= I18n.t "mycommission"%></div>
+</div>
+
+<div class="space10"></div>
+
+<div class="am-panel am-panel-default"  data-collapse="true" data-style="arrow">
+  <div class="am-panel-hd"><%= I18n.t "total_commission"%> <span style="float: right">¥<%=@share%></span></div>
+</div>
+<div class="am-panel am-panel-default"  data-collapse="true" data-style="arrow">
+  <div class="am-panel-hd"><%= I18n.t "withdrawn_commission"%> <span style="float: right">¥0</span></div>
+</div>
+
+<div class="am-panel am-panel-default"  data-collapse="true" data-style="arrow">
+  <div class="am-panel-hd"><%= I18n.t "pending_commission"%> <span style="float: right">¥<%=@share%></span></div>
+</div>
+<input type="hidden" name="favourable_id" value="">
+
+
+<div class="am-panel am-panel-default"  data-collapse="true" data-style="arrow">
+  <div class="am-panel-hd"><%= I18n.t "latest_commission"%> <span style="float: right">¥<%=format("%.2f",@sharelast)%></span></div>
+</div>
+
+<!--<div class="userdiv" data-cartforms="invoice">-->
+<!--<div class="invoice clearfix">-->
+<!--<h3>最新佣金:-->
+<!--<span class="new">¥<%#=format("%.2f",@sharelast)%></span><span class="down_arrow"></span>-->
+<!--</h3>-->
+<!--</div>-->
+<!--<div class="invoice clearfix hide">-->
+<!--<h3>最新佣金:</h3>-->
+<!--<div class="dashline2"></div>-->
+<!--<input name="invoice" type="text" placeholder="" value="¥<%#=format("%.2f",@sharelast)%>" class="text_input w100">-->
+<!--</div>-->
+<!--</div>-->
+
+</div>
+<div class="checktit clearfix">
+  &nbsp;&nbsp;&nbsp;&nbsp;<a href="/pages/yongjin?supplier_id=<%=@supplier.id%>"><%= I18n.t "what_commission"%></a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="/pages/yongjin?supplier_id=<%=@supplier.id%>"><%= I18n.t "earn_commission"%></a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="/pages/yongjin?supplier_id=<%=@supplier.id%>"><%= I18n.t "get_commission"%></a>
+</div>

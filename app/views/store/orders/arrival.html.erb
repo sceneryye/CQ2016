@@ -1,0 +1,93 @@
+<style type="text/css">
+    .form-sure{
+        float: right;
+    }
+
+    .href{
+        text-align: center;
+        padding: 10px;
+    }
+    #ahref{
+        font-size: 20px;
+        color: red;
+
+
+    }
+
+</style>
+<header id="am-topbar am-topbar-inverse">
+
+  <div class="am-panel am-panel-default">
+    <div class="am-panel-hd"style="text-align: center">收货人地址</div>
+
+  </div>
+
+</header>
+<% if @addrss.nil?%>
+<div class="href">
+<a id="ahref" class="am-button am-button-default" href="/member_addrs/_form_manco_second?member_departure_id=<%=@member_departure_id%>&supplier_id=<%=@supplier.id%>" >新增收货人地址 </a>
+
+         </div>
+     <%end%>
+  <%= form_for :order, :url=>@action_url,:method=>"POST",:html => {:class => "am-form"} do |f| %>
+     <input type="hidden" name="supplier_id" value="<%=@supplier.id %>">
+    <input type="hidden" name="platform"value="<%=@platform%>">
+    <%=hidden_field_tag "member_departure_id" , @member_departure_id %>
+    <table class="am-table am-table-striped am-table-hover">
+      <tr>
+        <td>&nbsp;</td>
+        <td >姓名</td>
+        <td >手机</td>
+        <td >详细地址</td>
+        <td>删除</td>
+      </tr>
+
+
+          <%@addrss.each do |def_addr|%>
+              <tr>
+                <td> <%=radio_button_tag "member_arrival_id",def_addr.addr_id ,:checked=>true%></td>
+                <td ><%=def_addr.name%></td>
+                <td ><%=def_addr.mobile%></td>
+                <td ><%=def_addr.addr%></td>
+                <td><input type="button"   data-url="/orders/destroyaddr?supplier_id=<%=@supplier.id%>" value="删除" class="am-button am-button-primary delete "></td>
+              </tr>
+
+          <% end %>
+
+
+
+    </table>
+    <% unless @addrss[0].nil?%>
+        <input type="submit" class="am-button am-button-primary am-button-block form-sure" value="确认" >
+    <%else%>
+        <div class="href">
+          <a id="ahref" class="am-button am-button-default" href="/member_addrs/_form_manco_second?member_departure_id=<%=@member_departure_id%>&supplier_id=<%=@supplier.id%>" >新增收货人地址 </a>
+
+        </div>
+
+
+        <%end%>
+<%end%>
+
+<%= javascript_include_tag "jquery", "jquery_ujs" %>
+<script type="application/javascript">
+  $(document).ready(function(){
+      $(".delete").bind("click",function(){
+       var addr_idsss=   $(this).parent("td").siblings("td").eq(0).children("input[type='radio']").val();
+          var thisTr =  $(this);
+        $.ajax( {
+               url: "/orders/destroyaddr?supplier_id=#{<%@supplier.id%>}",
+              type: "post",
+              data:{addr_idsss:addr_idsss },
+              success:function(res){
+                  thisTr.parents("td").parents("tr").remove();
+
+              }
+      });
+
+      })
+
+
+  })
+
+</script>

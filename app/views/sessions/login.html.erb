@@ -1,0 +1,136 @@
+
+<div class="row">
+  <div class="columns small-12 medium-6">
+      <p> </p>
+      <div class="status alert alert-success"></div>
+      <%if params[:l]=='1'%> 
+        <%=form_for :session,:url=>"/login",:class=>"contact-form",:html=>{:role=>"form",:remote=>true,data: {type: "script"}} do |f|%>
+            <div class="row">                               
+                <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.text_field :username,:placeholder=>"已认证手机号/会员名/邮箱",:class=>"form-control",:required=>"required"%>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.password_field :password, :placeholder=>"密码",:class=>"form-control",:required=>"required"%>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="columns small-12">
+                    <div class="form-group">
+                       <input type="checkbox" checked="checked" id="autologin" name="remember_me" value="1">
+                      <label id="remember_me" class="checkbox_label"  for="autologin"> 记住登录</label>
+                      <a class="forgot_link" href="/users/forgot_password" target="_top">找回密码</a>      
+                    </div>
+                </div>
+            </div>
+                                  
+             <div class="row">
+                <div class="columns small-12">                                    
+                    <div class="form-group">
+                        <button type="submit" class="button button-success expanded">登录</button>
+                    </div>
+                    <div id="login_msg"></div>
+                </div>
+            </div>
+        <%end%>
+      <%else%>
+        <h5>还没有账号？请扫描二维码关注 “CQ2016” 注册</h5><br><br>
+          <img src="/images/a01/homepage/getqrcode.jpg" title="二维码" class="callout">
+      <%end%>
+  </div><!--/.columns small-12-->
+  <div class="columns small-12 medium-6">
+      <%if params[:l]=='1'%> 
+        <%=form_for :user,:url=>users_path,:html=>{ :role=>"form",:id=>"register_form",:remote=>true,data: {type: "script"}} do |f|%>
+             <div class="row">
+                <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.text_field :email,:value=>"",:class=>"form-control",:placeholder=>"邮箱",:required=>"required"%>
+                    </div>
+                    <div class="help-block" rel="user_email"></div>
+                    <div class="help-block" rel="user_login_name"></div>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.text_field :mobile,:value=>"",:class=>"form-control",:placeholder=>"手机",:required=>"required"%>
+                    </div>
+                    <div class="help-block" rel="user_mobile"></div>
+                </div>
+            </div>
+             <div class="row">
+                 <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.text_field :real_name,:value=>"",:class=>"form-control",:placeholder=>"真实姓名",:required=>"required"%>
+                    </div>
+                </div>
+            </div>                           
+            <div class="row">
+                 <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.text_field :discount_code,:value=>"",:class=>"form-control",:placeholder=>"特惠码"%>
+                    </div>
+                    <div class="help-block" rel="user_discount_code"></div>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="columns small-12">
+                    <div class="form-group">
+                    <%=f.password_field :login_password,:value=>"",:class=>"form-control",:placeholder=>"密码",:required=>"required"%>
+                    </div>
+                    <div class="help-block" rel="user_login_password"></div>
+                    <P class="frm_tips">字母、数字或者英文符号，最短6位，区分大小写</P>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="columns small-12">
+                    <div class="form-group">
+                        <%=f.password_field :login_password_confirmation,:value=>"",:class=>"form-control",:placeholder=>"再次输入密码",:required=>"required"%>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="columns small-12">                 
+                    <div class="help-block1 status alert alert-success" style="display: none"></div>
+                    <input type="checkbox" checked="checked" value="agree" name="user[license]" id="license" class="x-input required" autocomplete="off">
+                    <label for="license" class="checkbox_label" id="i_agree">&nbsp;我已阅读并同意：</label><a href="/pages/zhucexieyi" target="_top"  id="reg_term">会员注册协议</a>
+                    <span id="and">和</span>&nbsp;<a href="/pages/ysbh" id="privacy" target="_top">隐私保护政策</a>
+                    <div class="help-block" rel="user_license"></div>
+                </div>
+            </div>
+             <div class="row">
+                <div class="columns small-12">                                    
+                    <div class="form-group">
+                         <%=f.submit "注 册",:class=>"button button-success expanded"%>
+                         <%=link_to "返 回","#",:class=>"button button-success expanded"%>            
+                    </div>
+                </div>
+            </div>
+        <%end%>  
+      <%else%>
+        <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>   
+
+            <h5>已经有账号？请扫描二维码登录</h5>
+            <div id="login_container"></div>
+            <script>
+             var obj = new WxLogin({
+              id:"login_container", 
+              appid: "wxb7327c6acc9be1be", 
+              scope: "snsapi_login", 
+              redirect_uri: "http://www.cq2016.cc/auth/weixin/2/callback",
+              state: "",
+              style: "white",
+              href: ""
+            });
+            </script>
+            <!-- <img src="/img/qrcode.jpg" title="二维码" style="width:100%"> -->
+        <%end%>            
+    </div><!--/.columns small-12-->
+</div><!--/.row-->
+
+<script src="/assets/login.js?body=1" type="text/javascript"></script>

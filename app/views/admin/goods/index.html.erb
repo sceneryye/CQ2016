@@ -1,0 +1,68 @@
+<div class="columns small-6 callout">
+	<%=render "goods_filters"%>
+</div>
+<div class="columns small-6 callout">
+	<div>
+	  <%=form_for :good,:url=>import_admin_goods_path,:html => {:multipart => true} ,:method=>:post do |f|%>
+	      <%= file_field :good, :file, :id=>'csvfile',:accept => "application/msexcel",:class=>"batch float-left" %>
+	      <%= f.submit 'EXCEL批量导入商品', :class => "button float-left" %>
+	  <%end%>
+	</div>
+	  <div id="batch_inputs" class="hide"></div>
+		<div id="batch_actions" class='button-group'>
+            <%=link_to "添加",'/admin/goods/new',:class=>"button"%>
+		    <%=link_to "删除","#",:class=>"button batch",:data=>{:act=>:destroy},:confirm=>"确定删除吗?"%>
+			<%=link_to "导出","#",:class=>"button batch",:data=>{:act=>:export}%>
+			<a href="#" data-act="up" class="batch button warning">批量上架</a>
+			<a href="#" data-act="down" class="batch button warning">批量下架</a>
+			<a href="#tegs"  id="pop_tegs" class='button alert'>为选中项打标签</a>
+			<a href="/admin/tags?tag_type=goods" target="_blank" class='button alert'>标签设置</a>
+		</div>
+</div>
+<style>
+ .checkbox-verticle {
+ 	list-style-type:none;
+ 	float:right;
+ }
+</style>
+<div class="columns small-12">
+   <%=form_for :member,:url=>export_admin_goods_path,:method=>:post do |f|%>
+      <%= f.hidden_field :select_all,:class=>"sel_operation", :value => 0 %>
+      <input type="hidden" name="all_goods_ids" value="<%=@goods_ids%>" />
+	<div id="selection">已选择了<b id="count">0</b>条记录!
+		&nbsp;
+		<%=link_to "选择全部","#",:id=>"select_all"%>
+		&nbsp;
+		<%=link_to "取消选择","#",:id=>"cancel_all"%>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+      <%if current_admin.has_right_of("goods","export") %>
+        <%= f.submit '导出商品', :class => "button" %>
+      <div style="float:right;">
+        <ul class="clearfix unstyled">
+          <li class="checkbox-verticle"><%= check_box_tag "fields[]","进货价",true%>进货价</li>
+          &nbsp; &nbsp; &nbsp;
+          <li class="checkbox-verticle"><%= check_box_tag "fields[]","渠道价",true%>渠道价</li>
+           &nbsp; &nbsp; &nbsp;
+          <li class="checkbox-verticle"><%= check_box_tag "fields[]","渠道零售价",true%>渠道零售价</li>
+           &nbsp; &nbsp; &nbsp;
+          <li class="checkbox-verticle"><%= check_box_tag "fields[]","批发价",true%>批发价</li>
+           &nbsp; &nbsp; &nbsp;
+          <li class="checkbox-verticle"><%= check_box_tag "fields[]","会员价",true%>会员价</li>
+           &nbsp; &nbsp; &nbsp;
+          <li class="checkbox-verticle"><%= check_box_tag "fields[]","市场价",true%>市场价</li>
+        </ul>
+      </div>
+           <%end%>
+	<table class="table table-bordered table-striped" id="goods" data-url="<%=request.fullpath.html_safe%>" count="<%=@count%>" goods_ids="<%=@goods_ids%>" >
+		<%=render "index_goods"%>
+	</table>
+  <%end%>
+</div>
+
+<div class="pagination">
+	<%= will_paginate @goods,renderer: FoundationPagination::Rails  %>
+	
+</div>
+
+
+<%=render "admin/shared/modal_tegs", :tegs=> Teg.good_tegs %>

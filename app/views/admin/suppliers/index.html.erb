@@ -1,0 +1,43 @@
+<div>
+  <h4>所有供应商</h4>
+</div>
+<%= flash[:notice] %>
+<%= link_to '新建供应商', new_admin_supplier_path, :class => "pull-right button" %>
+
+<table class="table table-bordered table-hover">
+  <tr>
+    <th>名字</th>
+    <th>logo</th>
+    <th>UserID</th>
+    <th>Token</th>
+    <th>Secret</th>
+    <th>电话</th>
+    <th>url</th>
+    <th>状态</th>
+    <th>操作</th>
+  </tr>
+
+<% @suppliers.each do |supplier| %>
+  <tr>
+    <td><%=supplier.name%></td>
+    <td><img src="<%=supplier.logo%>" style="width:200px"></td>
+    <td><%=supplier.member_id%></td>
+    <td><%=supplier.weixin_token%></td>
+    <td><%=supplier.weixin_secret_key%></td>
+    <td><%=supplier.tel%></td>
+    <td><%=supplier.url%></td>
+    <td> <%= link_to '修改', "/admin/suppliers/update_state?supplier_id=#{supplier.id}&user_id=#{supplier.member_id}"%></td>
+    <td>
+        <%= link_to '编辑', edit_admin_supplier_path(supplier) %>
+          |
+      <%= link_to '更新菜单', "/admin/wechat/menu_edit?id=#{supplier.id} "%>
+      |
+        <%= link_to '删除', admin_supplier_path(supplier), method: :delete, data: { confirm: '确定删除?' } %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<div class="pagination">
+  <%= will_paginate @suppliers,renderer: FoundationPagination::Rails, :container => false %>
+</div>
