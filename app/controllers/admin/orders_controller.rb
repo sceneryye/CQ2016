@@ -5,6 +5,11 @@ class Admin::OrdersController < Admin::BaseController
 
 	before_action :set_order, except: [:index,:batch,:downorder]
 
+	WX_APP_ID = 'wxf9945fddc9b67aaa'
+	WX_APP_SECRET = 'b2248ee62274de8680d26e6e355c350a'
+	WX_MCH_ID = '1322954001'
+	WX_API_KEY = '497dea12217e0392b1ea62b88ccq2016'
+
 	def destroy
 	    id = params[:id]
 	    @order_log = OrderLog.where(:rel_id=>id)
@@ -44,10 +49,10 @@ class Admin::OrdersController < Admin::BaseController
 			format.html
 		end
 	end
-	
-    def export    	
+
+    def export
   		orders = Order.all
-   
+
           package = Axlsx::Package.new
           workbook = package.workbook
 
@@ -57,11 +62,11 @@ class Admin::OrdersController < Admin::BaseController
           workbook.add_worksheet(:name => "ordersinfo") do |sheet|
 
           sheet.add_row [" 订单号","会员","收货人","下单时间","订单状态","付款状态","发货状态","订单金额","店铺id","收货地址","运单号"]
-                     
+
 
             row_count=0
 
-            orders.each do |order| 
+            orders.each do |order|
               orderid=order.order_id.to_s + " "
               memberid=order.member_id
               shipname=order.ship_name
@@ -70,9 +75,9 @@ class Admin::OrdersController < Admin::BaseController
               paystatustext=order.pay_status_text
               shipstatustext=order.ship_status_text
               finalamount=order.final_amount
-           
+
              shipaddrs=order.ship_addr
-          
+
               sheet.add_row [orderid,memberid,shipname,createdat,statustext,paystatustext,shipstatustext,finalamount,nil,shipaddrs]
               row_count +=1
             end
@@ -245,6 +250,7 @@ class Admin::OrdersController < Admin::BaseController
 	end
 
 	def dodelivery
+
 		if @order.ship_status == '1'
 			return render :text=>"该订单已发货 !",:layout=>"admin"
 		end
@@ -253,6 +259,7 @@ class Admin::OrdersController < Admin::BaseController
 			delivery.t_begin = Time.now.to_i
 			delivery.status = "succ"
 		end
+
 		if @delivery.save
 			# begin
 			# return render text: @delivery.delivery_items.to_json
@@ -290,18 +297,14 @@ class Admin::OrdersController < Admin::BaseController
 					order_log.result = "SUCCESS"
 				end
 
-		
+
 					@delivery.order.update_attribute :ship_status, '1'
 					order_log.log_text = {:txt_key=>"商品已发货 ! ",:delivery_id=>@delivery.delivery_id}.serialize
 					order_log.save
-				
-				text = "您的订单#{@order.order_id}已发货,使用#{@delivery.logi_name},单号为#{@delivery.logi_no}.请注意查收! [昌麒]"
-				#调用微信通知
 
-				# tel  =@delivery.ship_mobile
-				# Sms.send(tel,text)
-			#rescue Exception => e
-			# end
+					data={order_id:@order.order_id,openid:@order.user.account.openid,delivery_name:@delivery.dlycorp.name,delivery_no:@delivery.logi_no}
+					a = deal_with_participant_notify data
+					# return render text: a
 			return_url =  params[:return_url] || admin_orders_url
 			redirect_to "#{return_url}##{@order.order_id}"
 		else
@@ -429,7 +432,7 @@ class Admin::OrdersController < Admin::BaseController
 
 	def comment ()  end
 
-    def update_memo    	
+    def update_memo
     	@order.memo = params[:order][:memo]
     	@order.save
     	order_log = OrderLog.new do |order_log|
@@ -471,7 +474,7 @@ class Admin::OrdersController < Admin::BaseController
 	def delivery_params
 		params.require(:delivery).permit(:order_id,:member_id,:op_name, :delivery,:logi_id,:logi_name,:logi_no,
  										 :money, :is_protect,:province,:city,:district,:ship_zip,:ship_name,:ship_mobile,
- 										:ship_addr, :ship_tel, :memo, 
+ 										:ship_addr, :ship_tel, :memo,
  										delivery_items_attributes:[:order_item_id,:item_type,:product_id,:prouct_bn,:product_name,:number])
 	end
 
@@ -479,31 +482,34 @@ class Admin::OrdersController < Admin::BaseController
 		@return_url = request.env["HTTP_REFERER"] || admin_orders_url(:page=>params[:page])
 	end
 
-	# def deal_with_participant_notify(data)
-	#     groupbuy_id, participant_id, user_id = data['attach'].split('_')
-	#     participant = Participant.find_by(id: participant_id)
-	#     if participant.try(:pay_notify_status) == 0
-	#       parent = participant.event_id.present? ? 'events' : 'groupbuys'
-	#       participant.update_column(:status_pay, 1)
-	#       # 模板消息
-	#       openid = data['openid']
-	#       url = '/' + parent + '/groupbuy_id'
-	#       title = participant.event_id.present? ? Event.find_by(id: groupbuy_id).en_title : Groupbuy.find_by(id: groupbuy_id).en_title
-	#       data = {
-	#         first: { value: 'Paid successfully(支付成功)', color: '#173177' },
-	#         orderMoneySum: { value: format('%.2f', (data['cash_fee'].to_f / 100.00).to_s), color: '#173177' },
-	#         orderProductName: { value: title, color: '#173177' },
-	#         remark: { value: 'Paid successfully and please check for more information in Groupmall!(您已支付成功！您可以在吃货帮查看更多详情!)', color: '#173177' }
-	#       }
-	#       res_data = send_template_info_api openid, data, url
-	#       Rails.logger.info "##########################res_data=#{res_data}"
+	def deal_with_participant_notify data
+				# return data
+	      # 模板消息
+	      openid = data[:openid]
+	      url = "http://www.cq2016.cc/#{detail_order_path(data[:order_id])}"
+	      title = '商品已经发货'
+	      data = {
+	        first: { value: '亲，宝贝已经启程了，好想快点来到你身边', color: '#173177' },
+	        delivername: { value: data[:delivery_name], color: '#173177' },
+	        ordername: { value: data[:delivery_no], color: '#173177' },
+	        remark: { value: '如果疑问，请在微信服务号中输入“KF”，昌麒将在第一时间为您服务！', color: '#173177' }
+	      }
+	      res_data = send_template_info_api openid, data, url
+	      Rails.logger.info "##########################res_data=#{res_data}"
+				return res_data
+	      # # 发送至boss
+	      # nickname = User.find_by(id: user_id).nickname
+	      # info = "#{nickname}刚刚完成了一笔支付：#{title}, 赶紧去看看哦～"
+	      # send_info_preview_api info
+	end
 
-	#       # 发送至boss
-	#       nickname = User.find_by(id: user_id).nickname
-	#       info = "#{nickname}刚刚完成了一笔支付：#{title}, 赶紧去看看哦～"
-	#       send_info_preview_api info
-	#     end
-	# end
+	def send_template_info_api openid, data, url = '', template_id = 'CoAievL_AYaF050QaycKt_mthAIALbYupHS6icFR59E'
+	  post_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{get_jsapi_access_token}"
+	  post_data = {touser: openid, template_id: template_id, data: data, url: url}.to_json
+	  Rails.logger.info post_data
+	  RestClient.post post_url, post_data
+	end
+
 
 	# def send_info_preview_api info
 	#   post_url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=#{get_jsapi_access_token}"
@@ -511,13 +517,7 @@ class Admin::OrdersController < Admin::BaseController
 	#   data = {touser: openid, text: {content: info}, msgtype: 'text'}.to_json
 	#   RestClient.post post_url, data
 	# end
-
-	# def send_template_info_api openid, data, url = '', template_id = 'M9Mf27pbdTdTIxN_AfwbI3G_9mb5FlaydtsKwOZgSX4'
-	#   post_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{get_jsapi_access_token}"
-	#   post_data = {touser: openid, template_id: template_id, data: data, url: url}.to_json
-	#   Rails.logger.info post_data
-	#   RestClient.post post_url, post_data
-	# end
+	#
 
 	# def get_jsapi_ticket
 	#   wechat = Wechat.first
@@ -533,18 +533,19 @@ class Admin::OrdersController < Admin::BaseController
 	#   end
 	#   jsapi_ticket
 	# end
+	#
+	def get_jsapi_access_token
 
-	# def get_jsapi_access_token
-	#   wechat = Wechat.first
-	#   return wechat.access_token if wechat.access_token_expires_at.to_i > Time.now.to_i
-	#   get_url = 'https://api.weixin.qq.com/cgi-bin/token'
-	#   res_data_json = RestClient.get get_url, {:params => {:appid => WX_APP_ID, :grant_type => 'client_credential', :secret => WX_APP_SECRET}}
-	#   res_data_hash = ActiveSupport::JSON.decode res_data_json
-	#   access_token = res_data_hash["access_token"]
-	#   expires_at = Time.now.to_i + res_data_hash['expires_in'].to_i
-	#   wechat.update_attributes(:access_token => access_token, :access_token_expires_at => expires_at)
-	#   access_token
-	# end
+	  # wechat = Wechat.first
+	  # return wechat.access_token if wechat.access_token_expires_at.to_i > Time.now.to_i
+	  get_url = 'https://api.weixin.qq.com/cgi-bin/token'
+	  res_data_json = RestClient.get get_url, {:params => {:appid => WX_APP_ID, :grant_type => 'client_credential', :secret => WX_APP_SECRET}}
+	  res_data_hash = ActiveSupport::JSON.decode res_data_json
+	  access_token = res_data_hash["access_token"]
+	  expires_at = Time.now.to_i + res_data_hash['expires_in'].to_i
+	  # wechat.update_attributes(:access_token => access_token, :access_token_expires_at => expires_at)
+	  access_token
+	end
 
 	# def deal_with_downpayment_notify(data)
 	#     wishlist_id, user_id = data['attach'].split('_')
@@ -560,19 +561,17 @@ class Admin::OrdersController < Admin::BaseController
 	#       remark: { value: remark, color: '#173177' }
 	#     }
 	#     send_template_info_api data['openid'], data
-
+	#
 	#     # 发送至boss
 	#     nickname = User.find_by(id: user_id).nickname
 	#     info = "#{nickname}刚刚支付了一笔定金，共计#{total_fee}元。"
 	#     send_info_preview_api info
 	#   end
 	# end
-
-
+	#
+	#
 	# def send_weixin_notice
-
+	#
 	# end
-
-	
 
 end
