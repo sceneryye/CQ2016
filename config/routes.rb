@@ -8,7 +8,7 @@ Modengke::Application.routes.draw do
   get 'blank'=>"home#blank"
   get 'home'=>"home#index1"
 
-  resource :weixin do 
+  resource :weixin do
     member do
         get 'callback'
     end
@@ -43,7 +43,7 @@ Modengke::Application.routes.draw do
         put 'modify_password'
       end
     end
-   
+
     resource :member do
       member do
         get 'orders'
@@ -61,7 +61,7 @@ Modengke::Application.routes.draw do
       end
     end
 
-    
+
     resources :aftersales do
       get 'instruction', :on=>:collection
     end
@@ -78,7 +78,7 @@ Modengke::Application.routes.draw do
         get "mobile"  ,:on=>:collection
         get 'new_memberaddr_add' ,:on=>:collection
     end
-   
+
   end
 
   resources :pages, :only=>[:show]
@@ -91,11 +91,11 @@ Modengke::Application.routes.draw do
   end
 
   resources :sessions
-  
+
   get 'register'=>'users#new'
   resources :users do
     get 'forgot_password', :on=>:collection
-    post 'send_reset_password_instruction', :on=>:collection    
+    post 'send_reset_password_instruction', :on=>:collection
     get 'reset_password',:on=>:collection
     post 'search', :on=>:collection
     post 'change_password',:on=>:collection
@@ -133,7 +133,7 @@ Modengke::Application.routes.draw do
       get :pages,:on=>:collection
     end
 
-    resources :carts     
+    resources :carts
 
     resources :wechat do
       get :menu,:on=>:collection
@@ -229,11 +229,12 @@ Modengke::Application.routes.draw do
 
     resources :rebates
 
-    resources :withdrawals do 
-      
-      member do 
+    resources :withdrawals do
+
+      member do
         get :pay
         get :rebates
+        get :cancel
       end
     end
 
@@ -257,8 +258,8 @@ Modengke::Application.routes.draw do
         post 'pay_to_client'
       end
 
-      collection do        
-        get "trading_log"       
+      collection do
+        get "trading_log"
         post 'topup'
         post 'pay_with_pwd'
         post 'reset_password'
@@ -266,7 +267,7 @@ Modengke::Application.routes.draw do
         get 'get_trade_log'
         post 'pay_to_client'
       end
-      
+
       post 'import', :on=>:collection
       post "export",:on=>:collection
       get "tag",:on=>:collection
@@ -281,7 +282,7 @@ Modengke::Application.routes.draw do
       get 'select', :on=>:member
       put 'validate_mobile',:on=>:member
     end
-    
+
     resources :member_cards
 
     resources :tag_exts
@@ -358,12 +359,12 @@ Modengke::Application.routes.draw do
 
     # end
   end
- 
+
   scope :module => "store" do
 
     get 'search' => "search#index", :as=> :search
     get 'coupon_goods' =>"goods#coupon_goods", :as=>"goods" ,:controller=>"goods"
-   
+
     resources :products, :as=>"goods", :controller=>"goods" do
       # get 'newin',:on=>:collection
       get 'newest',:on=>:collection
@@ -394,7 +395,7 @@ Modengke::Application.routes.draw do
     resources :country, :as=>"countries", :controller=>"countries"
     resources :gallery, :as=>"cats", :controller=>"cats"
 
-   
+
     resources :goods,  :as=>"orders", :controller=>"orders" do
       member do
         get :goods

@@ -1,11 +1,17 @@
-<%=render "filter"%>
 
-<!--<p>
+<div class='columns large-6'>
 	<div id="batch_inputs" class="hide"></div>
 
-	<div id="batch_actions">
-		<%=link_to "导出","#",:class=>"button batch",:data=>{:act=>:export}%>
-		<div class="button-group">
+	<div id="batch_actions1">
+		<%=link_to "导出订单","#",:class=>"button batch-order",:data=>{:act=>:export}%>
+		<%=form_for :member,:url=>export_admin_orders_path,:method=>:post do |f|%>
+		<%= f.hidden_field :select_all,:class=>"sel_operation", :value => 0 %>
+		<input type="hidden" name="all_orders_ids" value="<%=@order_ids%>" />
+				 <%if current_admin.has_right_of("orders","export") %>
+					 <%= f.submit '导出订单', :class => "button batch"%>
+					<%end%>
+			 <%end%>
+		<!-- <div class="button-group" >
 		  <a class="button dropdown-toggle" data-toggle="dropdown" href="#">
 		    标签
 		    <span class="caret"></span>
@@ -15,26 +21,22 @@
 		    <li class="divider"></li>
 		    <li><a href="/admin/tags?tag_type=orders" target="_blank">标签设置</a></li>
 		  </ul>
-		</div>
+		</div> -->
 	</div>
-</p>
 
-<div id="selection">已选择了<b id="count">0</b>条记录! 
+
+</div>
+<div class='columns large-6'>
+	<%=render "filter"%>
+</div>
+<div id="selection">已选择了<b id="count">0</b>条记录!
 	&nbsp;
-	<%=link_to "选择全部","#",:id=>"select_all"%>
+	<%=link_to "选择全部","#",:id=>"select_all_order"%>
 	&nbsp;
-	<%=link_to "取消选择","#",:id=>"cancel_all"%> 
-</div>-->
+	<%=link_to "取消选择","#",:id=>"cancel_all_order"%>
+</div>
 
-
-<!--    <%=form_for :member,:url=>export_admin_orders_path,:method=>:post do |f|%>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-      <%if current_admin.has_right_of("orders","export") %>
-        <%= f.submit '导出订单', :class => "button batch"%>
-       <%end%>
-    <%end%> -->
-
-<table class="table table-bordered table-striped table-hover" id="orders" order_ids="<%=@order_ids.join(",")%>" 
+<table class="table table-bordered table-striped table-hover" id="orders" order_ids="<%=@order_ids.join(",")%>"
 			count="<%=@order_ids.count%>" data-url="<%=request.fullpath%>">
 	<thead>
 		<tr>

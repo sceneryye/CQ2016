@@ -13,7 +13,7 @@
   <tr>
     <th>提现号</th>
     <th>会员卡</th>
-    <th>会员卡类型</th>    
+    <th>卡类型</th>
     <th>姓名</th>
     <th>银行卡号</th>
     <th>银行名称</th>
@@ -21,6 +21,7 @@
     <th>申请时间</th>
     <th>提现金额</th>
     <th>状态</th>
+    <th>备注</th>
     <th>提现</th>
   </tr>
 
@@ -34,10 +35,12 @@
         <td><%=withdrawal.user.member_card.bank_name%></td>
         <td><%=withdrawal.user.member_card.bank_branch%></td>
         <td><%=l withdrawal.created_at%></td>
-        <td>¥<%=withdrawal.amount%></td>   
+        <td>¥<%=withdrawal.amount%></td>
         <td><%=withdrawal.status_text%></td>
+        <td><%=withdrawal.remark%></td>
         <td><%if withdrawal.status==0%>
-            <%=link_to '发放提现', pay_admin_withdrawal_path(withdrawal),class:'button hollow'%>
+            <%=link_to '发放', pay_admin_withdrawal_path(withdrawal),class:'button hollow'%>
+            <%=link_to '取消', cancel_admin_withdrawal_path(withdrawal),class:'button hollow'%>
             <%else%>
             <%=l withdrawal.updated_at%>
             <%end%>

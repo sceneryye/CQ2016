@@ -1,14 +1,12 @@
 <tr class="<%=order.status%>" id="order_<%=order.order_id%>">
-	<td>
-		<%= check_box_tag nil, order.order_id, false,:id=>"check_#{order.order_id}",:class=>"order"%>
-	</td>
+	<td><%=check_box_tag "batch[order_ids][]", order.order_id, false, :id=>"order_#{order.order_id}",:class=>"order"%></td>
 	<td> <%=link_to order.order_id,detail_admin_order_path(order),:target=>"_blank",:title=>"查看详细"%></td>
   <%if current_admin.has_right_of("orders","delivery")%>
 	<td class="dropdown">
 		<%if order.status == "active"%>
 			<ul class="dropdown menu" data-dropdown-menu>
 			<li><%=link_to '订单操作',"#"%>
-			<ul class='menu'>				
+			<ul class='menu'>
 				<li>
 					<%=link_to "支付",pay_admin_order_path(order,:page=>params[:page]) if order.pay_status == '0'%>
 

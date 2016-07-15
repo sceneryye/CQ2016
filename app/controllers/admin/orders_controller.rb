@@ -3,7 +3,7 @@ class Admin::OrdersController < Admin::BaseController
 	before_filter :get_return_url, :only=>[:show,:detail,:pay,:delivery,:reship,:refund]
 	skip_before_filter :verify_authenticity_token,:only=>[:batch]
 
-	before_action :set_order, except: [:index,:batch,:downorder]
+	before_action :set_order, except: [:index,:batch,:export]
 
 	WX_APP_ID = 'wxf9945fddc9b67aaa'
 	WX_APP_SECRET = 'b2248ee62274de8680d26e6e355c350a'
@@ -50,42 +50,6 @@ class Admin::OrdersController < Admin::BaseController
 		end
 	end
 
-    def export
-  		orders = Order.all
-
-          package = Axlsx::Package.new
-          workbook = package.workbook
-
-            workbook.styles do |s|
-
-
-          workbook.add_worksheet(:name => "ordersinfo") do |sheet|
-
-          sheet.add_row [" 订单号","会员","收货人","下单时间","订单状态","付款状态","发货状态","订单金额","店铺id","收货地址","运单号"]
-
-
-            row_count=0
-
-            orders.each do |order|
-              orderid=order.order_id.to_s + " "
-              memberid=order.member_id
-              shipname=order.ship_name
-              createdat=order.created_at
-              statustext=order.status_text
-              paystatustext=order.pay_status_text
-              shipstatustext=order.ship_status_text
-              finalamount=order.final_amount
-
-             shipaddrs=order.ship_addr
-
-              sheet.add_row [orderid,memberid,shipname,createdat,statustext,paystatustext,shipstatustext,finalamount,nil,shipaddrs]
-              row_count +=1
-            end
-           end
-          send_data package.to_stream.read,:filename=>"order_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
-          end
-    end
-
 
 	def search
 		if params[:s] && params[:s][:q].present?
@@ -100,45 +64,83 @@ class Admin::OrdersController < Admin::BaseController
 		end
 	end
 
+	def export
+
+  		orders = Order.all
+
+      package = Axlsx::Package.new
+      workbook = package.workbook
+
+      workbook.styles do |s|
+
+	      workbook.add_worksheet(:name => "ordersinfo") do |sheet|
+
+		      sheet.add_row [" 订单号","会员","收货人","下单时间","订单状态","付款状态","发货状态","订单金额","店铺id","收货地址","运单号"]
+
+	        row_count=0
+
+	        orders.each do |order|
+	          orderid=order.order_id.to_s + " "
+	          memberid=order.member_id
+	          shipname=order.ship_name
+	          createdat=order.created_at
+	          statustext=order.status_text
+	          paystatustext=order.pay_status_text
+	          shipstatustext=order.ship_status_text
+	          finalamount=order.final_amount
+
+	         	shipaddrs=order.ship_addr
+
+	          sheet.add_row [orderid,memberid,shipname,createdat,statustext,paystatustext,shipstatustext,finalamount,nil,shipaddrs]
+	          row_count +=1
+	        end
+       	end
+
+      	send_data package.to_stream.read,:filename=>"order_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+      end
+  end
+
+
 	def batch
 		act = params[:act]
-              order_ids =  params[:order_ids] || []
-              conditions = { :order_id=>order_ids }
+    order_ids =  params[:order_ids] || []
+    conditions = { :order_id=>order_ids }
+    if act == "export"
+    	orders = Order.where(conditions)
+return render text:orders.count
+			export1 orders
+      # Order.export(orders)
+      # return render :json=>{:csv=>"/tmp/orders.csv"}
+    end
 
-              if act == "export"
-              	orders = Order.where(conditions)
-	              Order.export(orders)
-	              return render :json=>{:csv=>"/tmp/orders.csv"}
-              end
+    if act == "tag"
+    	tegs = params[:tegs] || {}
 
-              if act == "tag"
-              	tegs = params[:tegs] || {}
+      tegs.values.each  do |teg|
+        	if teg[:technicals] == "checked"
+        		Tagable.where(:rel_id=>order_ids,:tag_type=>"orders",:tag_id=>teg[:tag_id]).delete_all if teg[:state] == "none"
+        	end
 
-	              tegs.values.each  do |teg|
-	                    	if teg[:technicals] == "checked"
-	                    		Tagable.where(:rel_id=>order_ids,:tag_type=>"orders",:tag_id=>teg[:tag_id]).delete_all if teg[:state] == "none"
-	                    	end
+        	if teg[:technicals] == "uncheck"
+        		order_ids.each do |order_id|
+        			Tagable.create(:rel_id=>order_id,:tag_id=>teg[:tag_id],:tag_type=>"orders",:app_id=>"b2c")
+        		end
+        	end
 
-	                    	if teg[:technicals] == "uncheck"
-	                    		order_ids.each do |order_id|
-	                    			Tagable.create(:rel_id=>order_id,:tag_id=>teg[:tag_id],:tag_type=>"orders",:app_id=>"b2c")
-	                    		end
-	                    	end
+            	if teg[:technicals] == "partcheck"
+            		if teg[:state] == "all"
+            			order_ids.each do |order_id|
+                   tagable = Tagable.where(:rel_id=>order_id,:tag_id=>teg[:tag_id],:tag_type=>"orders").first_or_initialize(:app_id=>"b2c")
+                   tagable.save
+                 end
+            	end
 
-	                    	if teg[:technicals] == "partcheck"
-	                    		if teg[:state] == "all"
-	                    			order_ids.each do |order_id|
-				                     tagable = Tagable.where(:rel_id=>order_id,:tag_id=>teg[:tag_id],:tag_type=>"orders").first_or_initialize(:app_id=>"b2c")
-				                     tagable.save
-			                     end
-	                    		end
-
-	                    		if teg[:state] == "none"
-	                    			Tagable.where(:rel_id=>order_ids,:tag_type=>"orders",:tag_id=>teg[:tag_id]).delete_all
-	                    		end
-	                    	end
-	              end
-              end
+          		if teg[:state] == "none"
+          			Tagable.where(:rel_id=>order_ids,:tag_type=>"orders",:tag_id=>teg[:tag_id]).delete_all
+          		end
+          end
+      end
+    end
 
 
 		if act == "get_same_tags"
@@ -171,7 +173,7 @@ class Admin::OrdersController < Admin::BaseController
 			return render :json=>stat
 		end
 
-              render :nothing=>true
+    # return render :nothing=>true
 	end
 
 	def show () end
@@ -311,7 +313,6 @@ class Admin::OrdersController < Admin::BaseController
 			render :delivery
 		end
 	end
-
 
 	def reship
 		@reship = Reship.new do |reship|
@@ -461,6 +462,7 @@ class Admin::OrdersController < Admin::BaseController
 		render :layout=>"print"
 	end
 
+
 	private
 
 	def set_order
@@ -477,6 +479,41 @@ class Admin::OrdersController < Admin::BaseController
  										:ship_addr, :ship_tel, :memo,
  										delivery_items_attributes:[:order_item_id,:item_type,:product_id,:prouct_bn,:product_name,:number])
 	end
+
+	def export1 orders
+  		# orders = Order.all
+
+      package = Axlsx::Package.new
+      workbook = package.workbook
+
+      workbook.styles do |s|
+
+	      workbook.add_worksheet(:name => "ordersinfo") do |sheet|
+
+		      sheet.add_row [" 订单号","会员","收货人","下单时间","订单状态","付款状态","发货状态","订单金额","店铺id","收货地址","运单号"]
+
+	        row_count=0
+
+	        orders.each do |order|
+	          orderid=order.order_id.to_s + " "
+	          memberid=order.member_id
+	          shipname=order.ship_name
+	          createdat=order.created_at
+	          statustext=order.status_text
+	          paystatustext=order.pay_status_text
+	          shipstatustext=order.ship_status_text
+	          finalamount=order.final_amount
+
+	         	shipaddrs=order.ship_addr
+
+	          sheet.add_row [orderid,memberid,shipname,createdat,statustext,paystatustext,shipstatustext,finalamount,nil,shipaddrs]
+	          row_count +=1
+	        end
+       	end
+
+      	send_data package.to_stream.read,:filename=>"order_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+      end
+  end
 
 	def get_return_url
 		@return_url = request.env["HTTP_REFERER"] || admin_orders_url(:page=>params[:page])
