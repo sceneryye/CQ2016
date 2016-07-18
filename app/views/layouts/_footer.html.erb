@@ -3,16 +3,16 @@
  <footer id="footer">
    <hr>
    <small>
-     &copy; 2016 - <span id='copyright_year'></span>, 昌麒投资有限公司<br> 
-       沪ICP备16007395号
+     &copy; 2016 - <span id='copyright_year'></span>, 昌麒投资有限公司<br>
+       浙ICP备16005543号
   </small>
 </footer><!--/#footer-->
 
 <script>
     var myDate = new Date();
-    var currentYear = myDate.getFullYear(); 
+    var currentYear = myDate.getFullYear();
     document.getElementById('copyright_year').innerText=currentYear;
-</script> 
+</script>
 </div>
 
 <div class="row columns small-12"  id="bottomNav">
@@ -43,6 +43,6 @@
     end%>
     <%=link_to @user_url,class: "button #{@users_active}" do%>
       <i class="fa fa-user"></i>
-    <%end%> 
+    <%end%>
   </div>
 </div>

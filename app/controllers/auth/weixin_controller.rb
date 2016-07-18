@@ -4,10 +4,10 @@ require 'pp'
 class Auth::WeixinController < ApplicationController
 	skip_before_filter :authorize_user!
 
-	def index 
+	def index
 		auth_ext = AuthExt.find_by_id(cookies.signed[:_auth_ext].to_i) if cookies.signed[:_auth_ext]
 		session[:from] = "external_auth"
-		
+
 		if auth_ext&&!auth_ext.expired?&&auth_ext.provider == 'weixin'
 			if auth_ext.account.nil?
 				cookies.delete :_auth_ext
@@ -82,7 +82,7 @@ class Auth::WeixinController < ApplicationController
 				  		ac.createtime = now.to_i
 				  		ac.openid = @openid
 				  		ac.auth_ext = auth_ext
-		        		ac.supplier_id = supplier_id        		
+		        		ac.supplier_id = supplier_id
 			  		end
 			  		Account.transaction do
 		  				if @account.save!(:validate => false)
@@ -96,7 +96,7 @@ class Auth::WeixinController < ApplicationController
 					  			#u.addr = auth_user.location || auth_user.loc_name if auth_user
 					  			u.regtime = now.to_i
 					  		end
-				  			@user.save!(:validate=>false)			  			
+				  			@user.save!(:validate=>false)
 				  		end
 			  		end
 			  	else
@@ -104,14 +104,18 @@ class Auth::WeixinController < ApplicationController
 				end
 
 			else
-				@account = auth_ext.account	    			    
+				@account = auth_ext.account
 			end
 		else
 			@account = @account.first
 		end
 
 # return render text: @account.to_json
-		sign_in(@account,'1')	
+    if @account.nil?
+			return redirect_to '/'
+		end
+
+		sign_in(@account,'1')
 
 		if supplier_id.to_i == 1
 			if current_account.openid.nil?
@@ -121,7 +125,7 @@ class Auth::WeixinController < ApplicationController
 
 		if current_account.member.card_validate=='false'
 	    	redirect =  new_member_path
-	    end	
+	    end
 
 		redirect_to redirect
 	end
