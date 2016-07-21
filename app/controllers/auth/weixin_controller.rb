@@ -47,8 +47,8 @@ class Auth::WeixinController < ApplicationController
 
 	   	@account = Account.where(login_name: token.unionid.to_s)
 	   	# return render text: token.unionid.to_s==@account.first.login_name
-	   	# return render text: @account.to_json
-	   	if @account.nil?
+			#  	return render text: @account.count
+	   	if @account.count == 0
 			auth_ext = AuthExt.where(:provider=>"weixin",
 										:uid=>token.unionid).first_or_initialize(
 										:access_token=>token.access_token,
