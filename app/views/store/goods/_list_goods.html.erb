@@ -1,5 +1,5 @@
- 
-		
+
+
 		<!-- <span class="secondary label">排序:</span> -->
 			<%
 				query_hash = {}
@@ -15,21 +15,21 @@
 				query = params_hash.to_query
 			%>
 				<%if params[:order].blank?%>
-					<%=link_to "价格&uarr;".html_safe,"?order=price-asc&#{query}",:title=>"价格从低往高",:class=>"alert hollow button"%>	
+					<%=link_to "价格&uarr;".html_safe,"?order=price-asc&#{query}",:title=>"价格从低往高",:class=>"alert hollow button"%>
 				<%elsif  params[:order] == "price-asc"%>
 					<%=link_to "价格&uarr;".html_safe,"?order=price-desc&#{query}",:title=>"价格从低往高",:class=>"alert hollow button"%>
 				<%else params[:order] =='price-desc'%>
 					<%=link_to "价格&darr;".html_safe,"?order=price-asc&#{query}",:title=>"价格从高往低",:class=>"alert hollow button"%>
 				<%end%>
 				<%=link_to "销量&darr;".html_safe,"?order=buy_count-desc&#{query}",:title=>"价格从高往低",:class=>"alert hollow button"%>
-			
+
 				<%=link_to "人气&darr;".html_safe,"?order=view_count-asc&#{query}",:title=>"人气从高往低" ,:class=>"alert hollow button"%>
-			
+
 		</ul>
 		<div class="row columns">
 			<%=will_paginate @goods,:container=>false if @goods%>
 		</div>
-                    
+
 
 <div class="row small-up-2 medium-up-3 large-up-5">
 
@@ -41,7 +41,7 @@
         <h6>
         <%=link_to good_path(goods.bn), :target=>"_blank" do %>
             <%=goods.name%>[<%=goods.spec_info%>]
-        <%end%>        
+        <%end%>
         </h6>
         <p class='text-center'>
             会员价：<span class='price'><%=number_to_currency goods.price,:unit=>"¥",:precision=>2%></span>
@@ -52,12 +52,7 @@
     <%end if @goods%>
 </div>
 <div class="row columns">
-<%=will_paginate @goods,renderer: FoundationPagination::Rails,:container=>false if @goods%>
+<%#=will_paginate @goods,renderer: FoundationPagination::Rails,:container=>false if @goods%>
+  <%=will_paginate @goods,:container=>false if @goods%>
 <%=image_tag '/assets/store/big_comingsoon.gif', :class=>"coming" if @goods.blank? %>
 </div>
-            
-                
-   
-
-
-
