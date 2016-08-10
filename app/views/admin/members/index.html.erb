@@ -4,7 +4,7 @@
      <%if current_admin.has_right_of("members","memberexport") %>
         <%= f.submit '导出会员', :class => "button batch"%>
        <%end%>
-                   
+
 
 <%= f.hidden_field :select_all,:class=>"sel_operation", :value => 0 %>
 <%if current_admin.login_name=="admin" %>
@@ -63,8 +63,8 @@
       <!-- <td>
         <%= check_box_tag "ids[]",member.member_id,false,:class =>'operate_ids'%>
       </td> -->
-      <% @column_data.each do |column| %>   
-      
+      <% @column_data.each do |column| %>
+
           <%if column.last.last == "true" %>
               <td>
                 <%if column.last[1]=='reg_time'%>
@@ -89,7 +89,7 @@
 </table>
 
 <div class="pagination row columns">
-  <%= will_paginate @members,renderer: FoundationPagination::Rails, :container => false %>
+  <%= will_paginate @members,renderer: FoundationPagination::Rails%>
 </div>
 <%end%>
 <div class="modal hide fade" id="sms_editor">

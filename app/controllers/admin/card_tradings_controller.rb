@@ -24,21 +24,25 @@ class Admin::CardTradingsController < Admin::BaseController
 		    		rate = 0.15
 		    	end
 	    		@rebate = Rebate.new do |rebate|
-		    		rebate.member_id = @card.member_card.member_id
+						if @card.member_card.present?
+			    		rebate.member_id = @card.member_card.member_id
+						end
 		    		rebate.card_id = @card.id
 		    		rebate.card_trading_id = @card_trading.id
 		    		rebate.rate = rate
-		    		rebate.amount = @card_trading.amount * rate 
+		    		rebate.amount = @card_trading.amount * rate
 		    		rebate.rebate_type = '0'
 		    	end
 
 		    	if @rebate.save && @card.card_type=='B'
 		    		@rebate = Rebate.new do |rebate|
-			    		rebate.member_id = @card.parent_card.member_card.member_id
+							if @card.parent_card.member_card.present?
+				    		rebate.member_id = @card.parent_card.member_card.member_id
+							end
 			    		rebate.card_id = @card.id
 			    		rebate.card_trading_id = @card_trading.id
 			    		rebate.rate = parent_rate
-			    		rebate.amount = @card_trading.amount * parent_rate 
+			    		rebate.amount = @card_trading.amount * parent_rate
 			    		rebate.rebate_type = '1'
 			    	end
 			    	@rebate.save!
@@ -53,22 +57,22 @@ class Admin::CardTradingsController < Admin::BaseController
 		end
 
 	end
-	  
+
 	def index
 	    @type = params[:type].to_i
 		if @type.blank?
-			@type = 0		
+			@type = 0
 		end
 		if @type == 0
 			@online='disabled'
 		else
 			@others = 'disabled'
-		end	
+		end
 
-		@card_tradings =   CardTrading.where(trading_type: @type)	
+		@card_tradings =   CardTrading.where(trading_type: @type)
 
 	    @card_tradings_total = @card_tradings.count
-	    @card_tradings = @card_tradings.paginate(:page=>params[:page],:per_page=>20)	
+	    @card_tradings = @card_tradings.paginate(:page=>params[:page],:per_page=>20)
 
 	end
 
@@ -77,5 +81,5 @@ class Admin::CardTradingsController < Admin::BaseController
 		params.require(:card_trading).permit(:card_no,:amount,:trading_time,:location)
 	end
 
-	
+
 end
