@@ -15,11 +15,10 @@
 <div id="resources_tree">
     <div class="title">权限分配</div>
     <br>
-    
+    <div class='row'>
     <% %w(goods order user article system).each do |pcat|%>
-        <ul>
         <%Resource.send("#{pcat}_resources").each do |controller|%>
-            <li class="controller">
+            <div class='column small-2'>
                     <%if @manager.has_right_of(controller.name)%>
                         <%=check_box_tag "#{controller.name}","",:checked%>
                     <%else%>
@@ -28,7 +27,7 @@
                     <label for="<%=controller.name%>">
                         <strong><%=controller.description%></strong>
                     </label>
-                    
+
                     <ul>
                         <%controller.actions.each do |action|%>
                         <li>
@@ -39,12 +38,10 @@
                         </li>
                         <%end%>
                     </ul>
-            </li>
+            </div>
         <%end%>
-        </ul>
-        <hr>
     <%end%>
-    
+  </div>
 </div>
 
 
@@ -52,5 +49,5 @@
     <%=f.submit "保存",:class=>"button"%>
     <%=link_to  "返回",admin_permissions_path,:class=>"button"%>
 </div>
-    
+
 <%end unless @manager.super?%>

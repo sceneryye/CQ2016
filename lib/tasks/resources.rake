@@ -1,11 +1,11 @@
-namespace :imodec do
+
 	desc "create resources"
 	task :res=>:environment do
 		require "pp"
 		Resource.connection.execute("truncate table #{Resource.table_name}")
-		
+
 		res = YAML.load_file(File.expand_path("resources.yml",File.dirname(__FILE__)))
-		
+
 		res.each do |k,v|
 			controller_desc=v.delete("desc")
 			@controller = Resource.where(:name=>k).first_or_initialize
@@ -21,4 +21,3 @@ namespace :imodec do
 		end
 
 	end
-end

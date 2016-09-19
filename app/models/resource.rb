@@ -1,9 +1,10 @@
 class Resource < ActiveRecord::Base
-  
-  
-  has_many :actions,:foreign_key=>"parent_id"
 
-  belongs_to :controller
+
+  has_many :actions,:foreign_key=>"parent_id",class_name: 'Resource'
+
+  belongs_to :controller,:foreign_key=>"parent_id",class_name: 'Resource'
+
 
   class << self
 

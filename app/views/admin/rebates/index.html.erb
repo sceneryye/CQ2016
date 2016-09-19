@@ -19,14 +19,14 @@
   <tbody>
   <%@rebates.each  do |rebate|%>
       <tr>
-        <td><%=rebate.user.name%></td>
-        <td><%=rebate.card_trading.card_no%></td>
+        <td><%=rebate.user.name if rebate.user%></td>
+        <td><%=rebate.card_trading.card_no if rebate.card_trading%></td>
         <td><%=rebate.type_text%></td>
         <td><%=rebate.card_trading.id%></td>
         <td><%=l rebate.created_at%></td>
         <td><%=rebate.amount%></td>
-        <td><%=rebate.rate*100%>%</td>    
-        <td><%=rebate.withdrawal_id%></td>        
+        <td><%=rebate.rate*100%>%</td>
+        <td><%=rebate.withdrawal_id%></td>
       </tr>
   <%end if @rebates%>
   <%if @rebates.blank?%>
